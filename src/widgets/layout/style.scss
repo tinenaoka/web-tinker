@@ -1,0 +1,65 @@
+@import 'src/app/styles/vars';
+
+$layout-index-width: 400px;
+$layout-index-logo-width: 130px;
+$layout-index-navigation-bg: #e3e3e3;
+
+.layout-index {
+  max-width: $layout-index-width;
+  position: relative;
+  height: 100%;
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+
+    header, main, footer {
+      width: 100%;
+    }
+
+    main {
+      padding: 0 15px;
+    }
+  }
+
+  &__logo {
+    max-width: $layout-index-logo-width;
+    margin: 20px auto 0 auto;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  &__navigation {
+    padding: 15px;
+    background: $layout-index-navigation-bg;
+
+    ul {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      li {
+        padding-right: 10px;
+
+        a {
+          text-transform: uppercase;
+        }
+      }
+
+      li:last-child {
+        padding-right: 0;
+      }
+    }
+  }
+}
+
+.layout-index--main-auto {
+  main {
+    flex: auto;
+  }
+}

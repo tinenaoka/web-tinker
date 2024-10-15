@@ -1,0 +1,66 @@
+.icon-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s ease;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    .icon {
+      background: none;
+    }
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+
+    .icon {
+      background: #b7b7b7;
+      border-color: #535353;
+      color: #fff;
+    }
+  }
+
+  .icon {
+    background: #d6d6d6;
+    border: 1px solid #acacac;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+  }
+
+  .icon--run {
+    &:before {
+      font-size: 12px;
+      content: '▶';
+    }
+  }
+
+  .icon--close {
+    &:before {
+      font-size: 12px;
+      content: '✖';
+    }
+  }
+
+  .icon--await {
+    &:before {
+      font-size: 12px;
+      content: '🤣';
+      animation: icon-rotate 2s linear infinite;
+    }
+  }
+}
+
+@keyframes icon-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+  from {
+    transform: rotate(0);
+  }
+}

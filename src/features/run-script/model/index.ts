@@ -1,0 +1,1 @@
+export { useFeatureRunScript } from './script';

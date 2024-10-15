@@ -1,0 +1,56 @@
+@import 'src/app/styles/vars';
+
+$global-bg: #ececec;
+$global-height: 500px;
+$global-content-height: 400px;
+$global-width: 300px;
+$global-main-link-color: #acacac;
+$global-main-link-color--active: #2d2d2d;
+$global-main-link-color--hover: #9a9a9a;
+
+body {
+  background: $global-bg;
+  width: $global-width;
+  height: $global-height;
+}
+
+.overflow-custom {
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 5px !important;
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #f0f2f5;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: #6a7d9b;
+  }
+}
+
+.main-link {
+  color: $global-main-link-color;
+  font-family: $font-family-medium;
+  transition: 0.3s ease;
+
+  &:hover {
+    color: $global-main-link-color--hover;
+  }
+  &:active {
+    color: $global-main-link-color--active;
+  }
+}
+
+.main-link.router-link-active {
+  color: $global-main-link-color--active;
+}

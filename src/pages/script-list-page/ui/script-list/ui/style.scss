@@ -1,0 +1,9 @@
+.script-list {
+  &__container {
+
+  }
+
+  &__item:first-child {
+    margin-top: 0;
+  }
+}

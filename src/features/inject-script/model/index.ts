@@ -1,0 +1,1 @@
+export { useFeatureInjectScript } from './script';

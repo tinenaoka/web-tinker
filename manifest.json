@@ -1,0 +1,16 @@
+{
+  "name": "Плагин для e2e тестирования сайта COLLLOR",
+  "description": "Выполнить стандартные действия и проверку работы сайта",
+  "version": "1.0",
+  "manifest_version": 3,
+  "icons": {
+    "16": "public/favicon.ico"
+  },
+  "action": {
+    "default_popup": "dist/index.html"
+  },
+  "host_permissions": [
+    "https://*/*"
+  ],
+  "permissions": ["scripting", "activeTab", "storage"]
+}

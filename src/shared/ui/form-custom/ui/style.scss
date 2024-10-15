@@ -1,0 +1,36 @@
+.form {
+  width: 100%;
+
+  &__group {
+    flex: auto;
+    position: relative;
+
+    input {
+      border: 1px solid #acacac;
+      border-radius: 15px;
+      padding: 5px 10px;
+      width: 100%;
+      transition: 0.3s ease;
+
+      &:focus {
+        box-shadow: 0 0 8px 1px #d3d3d3;
+      }
+    }
+
+    &__error {
+      font-size: 12px;
+      color: #c40000;
+      position: absolute;
+      left: 0;
+      top: 30px;
+    }
+  }
+}
+
+.form--inline {
+  display: inline-flex;
+
+  .form__button-submit {
+    padding-left: 10px;
+  }
+}

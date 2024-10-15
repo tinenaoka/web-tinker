@@ -1,0 +1,30 @@
+@import 'src/app/styles/vars';
+
+.script-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #dddddd;
+  padding: 0 0 5px;
+  margin-top: 10px;
+
+  &__name {
+    font-size: 17px;
+    font-family: $font-family-medium;
+    flex: auto;
+    overflow-wrap: anywhere;
+    padding-right: 10px;
+  }
+
+  &__navigation {
+    flex: 0 0 auto;
+
+    .icon-button:first-child {
+      margin-left: 0;
+    }
+
+    .icon-button {
+      margin-left: 5px;
+    }
+  }
+}
