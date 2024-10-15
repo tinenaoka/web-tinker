@@ -1,11 +1,13 @@
 This project uses a browser plugin to test websites directly in the browser. It enables running automated or manual tests on live sites, capturing interactions, verifying functionality, and tracking performance, helping developers ensure quality and usability in real-time.
 
 <h1>Setup</h1>
-
+<b>Buid</b><br><br>
 <code>npm i</code>
 <br>
 <br>
-<code>npm run build</code>
+<code>npm run build</code><br><br>
+
+<b>Or dowload last version</b><br>
 
 <h1>How add to Chorme</h1>
 
