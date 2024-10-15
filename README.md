@@ -15,7 +15,8 @@ This project uses a browser plugin to test websites directly in the browser. It 
 Enable Developer Mode: <br><br>
 2 - Toggle the "Developer mode" switch in the top-right corner.
 Load your extension: <br><br>
-3 - Click "Load unpacked" and select the folder containing your extension, where the manifest.json file is located. <br><br>
+3 - Click "Pack extension" and select the folder containing your extension, where the manifest.json file is located. <br><br>
+4 - Click "Load unpacked" and select the folder <br><br>
 
 <h1>How to use</h1>
 
