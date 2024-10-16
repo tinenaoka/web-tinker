@@ -20,7 +20,8 @@
     "noFallthroughCasesInSwitch": true,
 
     "types": [
-      "node"
+      "node",
+      "chrome"
     ]
   },
   "include": [

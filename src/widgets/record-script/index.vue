@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import {RunButton} from '../../shared/ui/run-button'
 import {SaveScriptForm} from '../../pages/index-page/ui/save-script-form'
-import {onMounted, Ref, ref, onBeforeUnmount, computed, Reactive, reactive, toRaw} from 'vue';
+import {onMounted, Ref, ref, computed, Reactive, reactive, toRaw} from 'vue';
 import {useFeatureRecordScript} from '../../features/record-script'
-import {useFeatureRecordLocalStorage} from '../../features/chrome-storage'
+import {useFeatureRecordLocalStorage} from '../../../chrome/storage';
+
 let script = useFeatureRecordScript;
 let storage = useFeatureRecordLocalStorage;
 
@@ -21,22 +22,14 @@ const isShowFormSave = computed(() =>
   recordedScript.value.length !== 0
 );
 
-const run = (): void => {
+const run = async () => {
   isRunning.value = !isRunning.value;
-  storage.setLocalStorage(keyIsRunningStorage, isRunning.value);
   if (isRunning.value) {
-    script.recordScript();
+    await script.recordScript();
     return;
   }
-  script.saveScript(async (documentScript: Array<any>) => {
-    if (documentScript.length === 0) {
-      return
-    }
-    if (documentScript[0].result.length === 0) {
-      return
-    }
-    recordedScript.value = documentScript[0].result;
-  });
+  let savedScript = await script.saveScript();
+  recordedScript.value = savedScript ?? [];
 }
 
 const removeRecordedScript = () => {
@@ -44,8 +37,8 @@ const removeRecordedScript = () => {
 }
 
 const onSaveScript = async (scriptName: string) => {
-  let storageSavedScripts: Record<string, any> = await storage.getLocalStorage(keySavedScripts);
-  let scripts = storageSavedScripts[keySavedScripts] ?? [];
+  let savedScripts: Array<any> = await storage.getLocalStorage(keySavedScripts);
+  let scripts = savedScripts ?? [];
   scripts.push({
     name: scriptName,
     scripts: toRaw(recordedScript.value),
@@ -54,15 +47,11 @@ const onSaveScript = async (scriptName: string) => {
   removeRecordedScript();
 }
 onMounted(async () => {
-  let storageRunning: Record<string, any> | undefined = await storage.getLocalStorage(keyIsRunningStorage);
-  if (storageRunning === undefined) {
+  let isRunningStore: unknown = await storage.getLocalStorage(keyIsRunningStorage);
+  if (isRunningStore === null) {
     return
   }
-  isRunning.value = storageRunning[keyIsRunningStorage]
-})
-
-onBeforeUnmount(() => {
-  script.destroyRecordScript();
+  isRunning.value = isRunningStore
 })
 </script>
 

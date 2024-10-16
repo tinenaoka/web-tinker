@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import {computed, onMounted, reactive, Reactive, toRaw} from 'vue';
-import {useFeatureRecordLocalStorage} from '../../features/chrome-storage'
 import {ScriptList} from './ui/script-list';
 import {ScriptListNotFound} from './ui/script-list-not-found';
 import {ScriptListNavigation} from './ui/script-list-navigation';
 import {useFeatureRunScript} from '../../features/run-script';
+import {useFeatureRecordLocalStorage} from '../../../chrome/storage';
 
 let storage = useFeatureRecordLocalStorage;
 
@@ -18,9 +18,9 @@ let isSetScripts = computed(() => scripts.value.length > 0)
 
 let keySavedScripts: string = storage.keys.savedScripts;
 
-const onRemoveAllScripts = () => {
-  storage.removeLocalStorage(keySavedScripts);
-  getStorageSavedScripts();
+const onRemoveAllScripts = async () => {
+  await storage.clearLocalStorage()
+  await getStorageSavedScripts();
 }
 
 const onRunScript = (idx: number) => {
@@ -33,11 +33,8 @@ const onRunScript = (idx: number) => {
 }
 
 const getStorageSavedScripts = async () => {
-  let storageSavedScripts: Record<string, any> = await storage.getLocalStorage(keySavedScripts);
-  if (storageSavedScripts === undefined) {
-    return
-  }
-  scripts.value = storageSavedScripts[keySavedScripts] ?? [];
+  let scriptsSaved: unknown = await storage.getLocalStorage(keySavedScripts);
+  scripts.value = scriptsSaved ?? [];
 }
 
 onMounted(() => {

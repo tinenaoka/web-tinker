@@ -1,6 +1,6 @@
 {
-  "name": "Плагин для e2e тестирования сайта COLLLOR",
-  "description": "Выполнить стандартные действия и проверку работы сайта",
+  "name": "Extension for e2e site testing",
+  "description": "This project uses a browser plugin to test websites directly in the browser. It enables running automated or manual tests on live sites, capturing interactions, verifying functionality, and tracking performance, helping developers ensure quality and usability in real-time.",
   "version": "1.0",
   "manifest_version": 3,
   "icons": {
@@ -9,8 +9,17 @@
   "action": {
     "default_popup": "dist/index.html"
   },
+  "background": {
+    "service_worker": "dist/entities/listener.js"
+  },
   "host_permissions": [
     "https://*/*"
   ],
-  "permissions": ["scripting", "activeTab", "storage"]
+  "permissions": ["scripting", "activeTab", "storage"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["dist/entities/sender.js"]
+    }
+  ]
 }
