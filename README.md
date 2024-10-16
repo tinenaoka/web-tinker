@@ -16,12 +16,12 @@ Load your extension: <br><br>
 <h1>How to use</h1>
 <b>Record</b>
 <br><br>
-1 - Open extensions <br><br> ![image](https://github.com/user-attachments/assets/c828e96e-9de2-4fa2-a04b-25b4c9870b7a) <br><br>
-2 - Press "Record Script" <br><br> ![image](https://github.com/user-attachments/assets/bfb9955e-9775-4a66-b07b-fb763c517cfd) <br><br>
+1 - Open extensions <br><br>
+2 - Press "Record Script" <br><br>
 3 - Do the actions you want to test on the site <br><br>
-4 - Add name and press "Save" <br><br> ![image](https://github.com/user-attachments/assets/4ed10508-9ad3-4a67-a0ed-d5f1c1a32249) <br><br>
+4 - Add name and press "Save" <br><br>
 <br><br>
 <b>Run</b>
 <br><br>
-1 - Press "Scripts" <br><br> ![image](https://github.com/user-attachments/assets/9f5b695a-3ef3-45c0-be09-f0f9502754af) <br><br>
-2 - Choose yor script and press "▶" <br><br> ![image](https://github.com/user-attachments/assets/07013067-59bf-47f2-8aed-d661233bf80c) <br><br>
+1 - Press "Scripts" <br><br>
+2 - Choose yor script and press "▶" <br><br>
