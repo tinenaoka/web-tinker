@@ -24,17 +24,24 @@ const onRemoveAllScripts = async () => {
 }
 
 const onRunScript = (idx: number) => {
-  runner.runScript(
-    toRaw(scripts.value[idx].scripts),
-    () => {
-      console.log(idx, 'aboba')
-    }
-  )
+  scripts.value[idx].isRunning = true;
+  runner.runScript(toRaw(scripts.value[idx].scripts))
+}
+
+const onStopScript = (idx: number) => {
+  scripts.value[idx].isRunning = false;
+  runner.stopScript()
 }
 
 const getStorageSavedScripts = async () => {
   let scriptsSaved: unknown = await storage.getLocalStorage(keySavedScripts);
   scripts.value = scriptsSaved ?? [];
+  scripts.value.map((script: any) => {
+    return {
+      ...script,
+      isRunning: false
+    };
+  })
 }
 
 onMounted(() => {
@@ -51,6 +58,7 @@ onMounted(() => {
         <script-list
           :scripts="scripts.value"
           @run-script="onRunScript"
+          @stop-script="onStopScript"
         />
       </div>
       <script-list-navigation @remove-all-scripts="onRemoveAllScripts" />

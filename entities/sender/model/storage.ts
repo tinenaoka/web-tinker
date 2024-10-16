@@ -1,7 +1,9 @@
 const keys = {
     statusRunning: 'isRunningRecord',
     savedScripts: 'savedScripts',
-    recordedScript: 'recordedScript'
+    recordedScript: 'recordedScript',
+    runningScript: 'runningScript',
+    statusRunningSaved: 'isRunningSaved',
 }
 
 const getLocalStorage = async (key: string): Promise<any> => {

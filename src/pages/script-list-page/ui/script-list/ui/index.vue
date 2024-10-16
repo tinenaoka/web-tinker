@@ -7,7 +7,7 @@ const props = defineProps({
 });
 let scripts = computed(() => props.scripts);
 
-const emits = defineEmits(['run-script']);
+const emits = defineEmits(['run-script', 'stop-script']);
 </script>
 
 <template>
@@ -17,8 +17,10 @@ const emits = defineEmits(['run-script']);
         v-for="(script, idx) in scripts"
         :key="idx"
         :name="script.name"
+        :is-running="script.isRunning"
         class="script-list__item"
         @run-script="emits('run-script', idx)"
+        @stop-script="emits('stop-script', idx)"
       >
       </script-list-item>
     </div>

@@ -54,6 +54,13 @@
       animation: icon-rotate 2s linear infinite;
     }
   }
+
+  .icon--stop {
+    &:before {
+      font-size: 12px;
+      content: '⏹';
+    }
+  }
 }
 
 @keyframes icon-rotate {

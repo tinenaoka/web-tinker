@@ -3,4 +3,5 @@ export const icons = {
     close: 'icon--close',
     running: 'icon--running',
     await: 'icon--await',
+    stop: 'icon--stop',
 }
