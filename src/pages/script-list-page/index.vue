@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, onMounted, reactive, Reactive, toRaw} from 'vue';
+import {computed, onMounted, reactive, Reactive} from 'vue';
 import {ScriptList} from './ui/script-list';
 import {ScriptListNotFound} from './ui/script-list-not-found';
 import {ScriptListNavigation} from './ui/script-list-navigation';
@@ -23,25 +23,19 @@ const onRemoveAllScripts = async () => {
   await getStorageSavedScripts();
 }
 
-const onRunScript = (idx: number) => {
-  scripts.value[idx].isRunning = true;
-  runner.runScript(toRaw(scripts.value[idx].scripts))
+const onRunScript = async (idx: number) => {
+  await runner.runScript(scripts.value[idx].id)
+  await getStorageSavedScripts();
 }
 
-const onStopScript = (idx: number) => {
-  scripts.value[idx].isRunning = false;
-  runner.stopScript()
+const onStopScript = async (idx: number) => {
+  await runner.stopScript(scripts.value[idx].id)
+  await getStorageSavedScripts();
 }
 
 const getStorageSavedScripts = async () => {
   let scriptsSaved: unknown = await storage.getLocalStorage(keySavedScripts);
   scripts.value = scriptsSaved ?? [];
-  scripts.value.map((script: any) => {
-    return {
-      ...script,
-      isRunning: false
-    };
-  })
 }
 
 onMounted(() => {

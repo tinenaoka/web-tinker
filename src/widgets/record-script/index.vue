@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {RunButton} from '../../shared/ui/run-button'
 import {SaveScriptForm} from '../../pages/index-page/ui/save-script-form'
-import {onMounted, Ref, ref, computed, Reactive, reactive, toRaw} from 'vue';
+import {onMounted, Ref, ref, computed, Reactive, reactive} from 'vue';
 import {useFeatureRecordScript} from '../../features/record-script'
 import {useFeatureRecordLocalStorage} from '../../../chrome/storage';
 
@@ -13,7 +13,6 @@ let recordedScript = <Reactive<any>>reactive({
   value: []
 });
 let keyIsRunningStorage: string = storage.keys.statusRunning;
-let keySavedScripts: string = storage.keys.savedScripts;
 
 const isShowRunButton = computed(() =>
   recordedScript.value.length === 0
@@ -37,13 +36,7 @@ const removeRecordedScript = () => {
 }
 
 const onSaveScript = async (scriptName: string) => {
-  let savedScripts: Array<any> = await storage.getLocalStorage(keySavedScripts);
-  let scripts = savedScripts ?? [];
-  scripts.push({
-    name: scriptName,
-    scripts: toRaw(recordedScript.value),
-  });
-  await storage.setLocalStorage(keySavedScripts, scripts);
+  await script.addScriptItem(scriptName);
   removeRecordedScript();
 }
 onMounted(async () => {

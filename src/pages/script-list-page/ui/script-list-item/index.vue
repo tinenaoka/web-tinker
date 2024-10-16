@@ -9,7 +9,7 @@ const props = defineProps({
 });
 const emits = defineEmits(['run-script', 'stop-script']);
 
-let iconAction = computed(() => props.isRunning ? icons.await : icons.run )
+let iconAction = computed(() => props.isRunning ? icons.stop : icons.run )
 </script>
 
 <template>
@@ -24,11 +24,6 @@ let iconAction = computed(() => props.isRunning ? icons.await : icons.run )
       <icon-button
         :icon="icons.close"
         :disabled="props.isRunning"
-      />
-      <icon-button
-        v-if="props.isRunning"
-        :icon="icons.stop"
-        @click="emits('stop-script')"
       />
     </div>
   </div>

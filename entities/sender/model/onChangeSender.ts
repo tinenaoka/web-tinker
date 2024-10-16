@@ -43,8 +43,10 @@ export const onChangeSender = (actionMame: string, timeAnimation = 1200) => {
         isCanNextScriptAction = false;
         for (let selector of await storage.getLocalStorage(storage.keys.runningScript)) {
             if (clickToElementFromSelector(selector)) {
+                console.log('click')
                 await saveCurrentScriptRunning();
                 await whitForAnimation(timeAnimation);
+                console.log('next script')
             }
         }
         isCanNextScriptAction = true;
