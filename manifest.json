@@ -19,7 +19,8 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["dist/entities/sender.js"]
+      "js": ["dist/entities/sender.js"],
+      "run_at": "document_end"
     }
   ]
 }

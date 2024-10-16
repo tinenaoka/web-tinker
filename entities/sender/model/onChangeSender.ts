@@ -5,8 +5,33 @@ const CONFIG_CHANGE_DOM = { childList: true, subtree: true };
 
 const storage = useFeatureRecordLocalStorage;
 
-export const onChangeSender = (actionMame: string, timeAnimation = 3000) => {
+const clickToElementFromSelector = (selector: string) => {
+    let node = document.querySelector(selector);
+    if (!node) {
+        return false
+    }
+    node.click()
+    return true;
+}
+
+const saveCurrentScriptRunning = async () => {
+    let runningScript = await storage.getLocalStorage(storage.keys.runningScript) ?? [];
+    if (runningScript.length > 0) {
+        runningScript.splice(0, 1)
+    }
+    return await storage.setLocalStorage(
+        storage.keys.runningScript,
+        runningScript
+    );
+}
+
+const whitForAnimation = async (timeAnimation: number) => {
+    return await new Promise((resolve) => setTimeout(resolve, timeAnimation));
+}
+
+export const onChangeSender = (actionMame: string, timeAnimation = 1200) => {
     let isCanNextScriptAction = true;
+
     const observer = new MutationObserver(async () => {
         let isHaveRunningScript = await storage.getLocalStorage(storage.keys.statusRunningSaved);
         if (!isHaveRunningScript) {
@@ -17,18 +42,9 @@ export const onChangeSender = (actionMame: string, timeAnimation = 3000) => {
         }
         isCanNextScriptAction = false;
         for (let selector of await storage.getLocalStorage(storage.keys.runningScript)) {
-            let node = document.querySelector(selector);
-            if (node) {
-                node.click()
-                let runningScript = await storage.getLocalStorage(storage.keys.runningScript) ?? [];
-                if (runningScript.length > 0) {
-                    runningScript.splice(0, 1)
-                }
-                await storage.setLocalStorage(
-                    storage.keys.runningScript,
-                    runningScript
-                );
-                await new Promise((resolve) => setTimeout(resolve, timeAnimation));
+            if (clickToElementFromSelector(selector)) {
+                await saveCurrentScriptRunning();
+                await whitForAnimation(timeAnimation);
             }
         }
         isCanNextScriptAction = true;
