@@ -1,7 +1,7 @@
 import {ACTIONS_EVENT} from './actions';
 import {onClickEvent} from './model/onClickEvent';
 import {onChangeEvent} from './model/onChangeEvent';
-import {addListener} from '../../chrome/runtime/model/addListener';
+import {addListener} from './model/chorme';
 
 let listenerAction  = { ...ACTIONS_EVENT } as ACTIONS_EVENT;
 listenerAction.changeDom = onChangeEvent;

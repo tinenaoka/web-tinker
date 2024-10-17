@@ -9,7 +9,11 @@ const props = defineProps({
 });
 const emits = defineEmits(['run-script', 'stop-script']);
 
-let iconAction = computed(() => props.isRunning ? icons.stop : icons.run )
+let iconAction = computed(() => props.isRunning ? icons.stop : icons.run );
+
+const onClickToActionIcon = () => {
+  props.isRunning ? emits('stop-script') : emits('run-script')
+}
 </script>
 
 <template>
@@ -18,8 +22,7 @@ let iconAction = computed(() => props.isRunning ? icons.stop : icons.run )
     <div class="script-list-item__navigation">
       <icon-button
         :icon="iconAction"
-        :disabled="props.isRunning"
-        @click="emits('run-script')"
+        @click="onClickToActionIcon"
       />
       <icon-button
         :icon="icons.close"

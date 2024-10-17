@@ -6,7 +6,7 @@ const CONFIG_CHANGE_DOM = { childList: true, subtree: true };
 const storage = useFeatureRecordLocalStorage;
 
 const clickToElementFromSelector = (selector: string) => {
-    let node = document.querySelector(selector);
+    let node = document.querySelector(selector) as HTMLElement;
     if (!node) {
         return false
     }
@@ -43,13 +43,14 @@ export const onChangeSender = (actionMame: string, timeAnimation = 1200) => {
         isCanNextScriptAction = false;
         for (let selector of await storage.getLocalStorage(storage.keys.runningScript)) {
             if (clickToElementFromSelector(selector)) {
-                console.log('click')
+                console.log('-------CLICK--------')
                 await saveCurrentScriptRunning();
                 await whitForAnimation(timeAnimation);
-                console.log('next script')
+                console.log('-----NEXT CLICK--------')
             }
         }
         isCanNextScriptAction = true;
+        console.log('-----sendMessageFromExtension--------')
         sendMessageFromExtension(actionMame, {})
     });
     observer.observe(document.body, CONFIG_CHANGE_DOM);

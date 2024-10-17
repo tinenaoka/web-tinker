@@ -44,5 +44,5 @@ const getScriptItem = (name: string, scripts: Array<string>) => {
 export const useFeatureRecordScript = {
     recordScript,
     saveScript,
-    addScriptItem
+    addScriptItem,
 }

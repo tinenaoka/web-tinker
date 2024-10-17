@@ -5,8 +5,11 @@ import {ScriptListNotFound} from './ui/script-list-not-found';
 import {ScriptListNavigation} from './ui/script-list-navigation';
 import {useFeatureRunScript} from '../../features/run-script';
 import {useFeatureRecordLocalStorage} from '../../../chrome/storage';
+import {addListener} from '../../../chrome/runtime/model/addListener';
 
 let storage = useFeatureRecordLocalStorage;
+
+const STOP_SCRIPTING_ACTION = 'stop-scripting';
 
 let runner = useFeatureRunScript;
 
@@ -37,6 +40,14 @@ const getStorageSavedScripts = async () => {
   let scriptsSaved: unknown = await storage.getLocalStorage(keySavedScripts);
   scripts.value = scriptsSaved ?? [];
 }
+
+addListener(async (message: any) => {
+  if (message.action !== STOP_SCRIPTING_ACTION) {
+    return;
+  }
+  await runner.stopActiveScript()
+  await getStorageSavedScripts();
+})
 
 onMounted(() => {
   getStorageSavedScripts();
