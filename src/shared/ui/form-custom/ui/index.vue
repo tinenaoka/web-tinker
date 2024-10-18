@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, ref, watch} from 'vue';
+import {computed, ref, toRefs, watch} from 'vue';
 import {InputFieldInterface, InputFieldRefsInterface, REFS_OVERRIDE_FIELDS} from '../model';
 import {MainButton} from '../../main-button/index';
 
@@ -9,9 +9,11 @@ const props = defineProps({
   isInlineForm: Boolean
 });
 
-const classForm = computed(() => props.isInlineForm ? 'form--inline' : '')
+const {isInlineForm, inputs} = toRefs(props);
 
-let inputs = Object.assign([], props.inputs)
+const classForm = computed(() => isInlineForm ? 'form--inline' : '')
+
+let inputsForm = Object.assign([], inputs)
   .map((item: InputFieldInterface): InputFieldRefsInterface => {
     const itemRef = structuredClone(item) as unknown as InputFieldRefsInterface;
     for (let key of REFS_OVERRIDE_FIELDS) {
@@ -22,7 +24,7 @@ let inputs = Object.assign([], props.inputs)
 let isCanSubmit = false;
 
 watch(
-  () => inputs || [],
+  () => inputsForm || [],
   (inputs: Array<InputFieldRefsInterface>) => {
     isCanSubmit = true;
     let inputError = inputs.find(item => {
@@ -61,7 +63,7 @@ const validateInput = (input: InputFieldRefsInterface): void => {
     class="form"
   >
     <div
-      v-for="(input, idx) in inputs"
+      v-for="(input, idx) in inputsForm"
       :key="idx"
       class="form__group"
     >

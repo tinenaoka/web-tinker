@@ -1,28 +1,30 @@
 <script setup lang="ts">
 import {IconButton} from '../../../../shared/ui/icon-button/index';
 import {icons} from '../../../../shared/ui/icon-button/model';
-import {computed} from 'vue';
+import {computed, toRefs} from 'vue';
 
 const props = defineProps({
   name: String,
   isRunning: Boolean,
 });
+const {name, isRunning} = toRefs(props);
+
 const emits = defineEmits(['run-script', 'stop-script', 'delete-script']);
 
-let iconAction = computed(() => props.isRunning ? icons.stop : icons.run );
+let iconAction = computed(() => isRunning ? icons.stop : icons.run );
 
-const onClickToActionIcon = () => {
-  props.isRunning ? emits('stop-script') : emits('run-script')
+const onClickToActionIcon = (): void => {
+  isRunning ? emits('stop-script') : emits('run-script')
 }
 
-const onClickToDeleteIcon = () => {
+const onClickToDeleteIcon = (): void => {
   emits('delete-script')
 }
 </script>
 
 <template>
   <div class="script-list-item">
-    <span class="script-list-item__name">{{ props.name }}</span>
+    <span class="script-list-item__name">{{ name }}</span>
     <div class="script-list-item__navigation">
       <icon-button
         :icon="iconAction"
@@ -30,7 +32,7 @@ const onClickToDeleteIcon = () => {
       />
       <icon-button
         :icon="icons.close"
-        :disabled="props.isRunning"
+        :disabled="isRunning"
         @click="onClickToDeleteIcon"
       />
     </div>

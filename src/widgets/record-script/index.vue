@@ -21,7 +21,7 @@ const isShowFormSave = computed(() =>
   recordedScript.value.length !== 0
 );
 
-const run = async () => {
+const run = async (): Promise<void> => {
   isRunning.value = !isRunning.value;
   if (isRunning.value) {
     await script.recordScript();
@@ -31,15 +31,15 @@ const run = async () => {
   recordedScript.value = savedScript ?? [];
 }
 
-const removeRecordedScript = () => {
+const removeRecordedScript = (): void => {
   recordedScript.value = [];
 }
 
-const onSaveScript = async (scriptName: string) => {
+const onSaveScript = async (scriptName: string): Promise<void> => {
   await script.addScriptItem(scriptName);
   removeRecordedScript();
 }
-onMounted(async () => {
+onMounted(async (): Promise<void> => {
   let isRunningStore: unknown = await storage.getLocalStorage(keyIsRunningStorage);
   if (isRunningStore === null) {
     return

@@ -6,9 +6,7 @@ const props = defineProps({
   textStop: String,
   isRunning: Boolean
 });
-const text = <String>props.text;
-const textStop = <String>props.textStop;
-const {isRunning} = toRefs(props);
+const {isRunning, text, textStop} = toRefs(props);
 
 const emits = defineEmits(['run'])
 

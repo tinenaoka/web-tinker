@@ -2,7 +2,7 @@ import {useFeatureRecordLocalStorage} from './storage';
 
 const storage = useFeatureRecordLocalStorage;
 
-export const onClickEvent = async (absolutePath: string) => {
+export const onClickEvent = async (absolutePath: string): Promise<void> => {
     let isRunningStatus = await storage.getLocalStorage(storage.keys.statusRunning)
     if (!isRunningStatus) {
         return

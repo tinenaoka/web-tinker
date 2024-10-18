@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import {routes} from '../../../../index';
+import {RouteLocationAsRelative} from 'vue-router';
 
-let pathToRecordScript = {
-  name: routes[0].name
+let pathToRecordScript: RouteLocationAsRelative = {
+  name: routes[0].name,
 }
 </script>
 

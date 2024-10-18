@@ -5,7 +5,7 @@ const CONFIG_CHANGE_DOM = { childList: true, subtree: true };
 
 const storage = useFeatureRecordLocalStorage;
 
-const clickToElementFromSelector = (selector: string) => {
+const clickToElementFromSelector = (selector: string): boolean => {
     let node = document.querySelector(selector) as HTMLElement;
     if (!node) {
         return false
@@ -14,7 +14,7 @@ const clickToElementFromSelector = (selector: string) => {
     return true;
 }
 
-const saveCurrentScriptRunning = async () => {
+const saveCurrentScriptRunning = async (): Promise<void> => {
     let runningScript = await getRunningScript();
     if (runningScript.length > 0) {
         runningScript.splice(0, 1)
@@ -25,31 +25,36 @@ const saveCurrentScriptRunning = async () => {
     );
 }
 
-const whitForAnimation = async (timeAnimation: number) => {
+const whitForAnimation = async (timeAnimation: number): Promise<void> => {
     return await new Promise((resolve) => setTimeout(resolve, timeAnimation));
 }
 
-const getRunningScript = async () => {
+const getRunningScript = async (): Promise<Array<string> | []> => {
     return await storage.getLocalStorage(storage.keys.runningScript) ?? []
 }
 
-const getNextElementNode = (runningScript: Array<string>, index = 0): HTMLElement | null => {
+const getNextElementNode = (runningScript: Array<string> | [], index = 0): HTMLElement | null => {
+    if (runningScript.length === 0) {
+        return null
+    }
     return document.querySelector(runningScript[index])
 }
 
 const whitForNextElement = async (): Promise<HTMLElement | boolean> => {
-    return new Promise(async (resolve) => {
+    return new Promise(async (resolve): Promise<boolean> => {
         let runningScript = await getRunningScript();
         if (runningScript.length === 0) {
             resolve(false);
             return false;
         }
+
         let nextElement = getNextElementNode(runningScript);
-        if (nextElement) {
+        if (nextElement !== null) {
             resolve(nextElement);
             return true;
         }
-        const observerNextElement = new MutationObserver(async () => {
+
+        const observerNextElement = new MutationObserver(async (): Promise<boolean> => {
             nextElement = getNextElementNode(runningScript);
             if (nextElement !== null) {
                 resolve(nextElement);
@@ -61,7 +66,7 @@ const whitForNextElement = async (): Promise<HTMLElement | boolean> => {
     })
 }
 
-const isNodeVisible = (node: HTMLElement) => {
+const isNodeVisible = (node: HTMLElement): boolean => {
     let currentElement = node;
 
     while (currentElement) {
@@ -74,12 +79,12 @@ const isNodeVisible = (node: HTMLElement) => {
     return true;
 }
 
-const whitForElementIsShowingOnPage = (nextElement: HTMLElement) => {
+const whitForElementIsShowingOnPage = (nextElement: HTMLElement): Promise<boolean> | boolean => {
     if (isNodeVisible(nextElement)) {
         return true;
     }
-    return new Promise((resolve) => {
-        const observerElement = new MutationObserver(async () => {
+    return new Promise((resolve): void => {
+        const observerElement = new MutationObserver(async (): Promise<boolean> => {
             if (isNodeVisible(nextElement)) {
                 resolve(true);
                 observerElement.disconnect()
@@ -90,9 +95,9 @@ const whitForElementIsShowingOnPage = (nextElement: HTMLElement) => {
     })
 }
 
-export const onChangeSender = (actionMame: string, timeAnimation = 500) => {
+export const onChangeSender = (actionMame: string, timeAnimation = 500): void => {
     let isCanNextScriptAction = true;
-    const observer = new MutationObserver(async () => {
+    const observer = new MutationObserver(async (): Promise<void> => {
         let isHaveRunningScript = await storage.getLocalStorage(storage.keys.statusRunningSaved);
         if (!isHaveRunningScript) {
             return

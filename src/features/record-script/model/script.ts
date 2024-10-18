@@ -9,11 +9,11 @@ export interface ScriptItem {
     isRunning: boolean
 }
 
-const clearRecordedScript = async () => {
+const clearRecordedScript = async (): Promise<void> => {
     await storage.setLocalStorage(storage.keys.recordedScript, [])
 }
 
-const recordScript = async () => {
+const recordScript = async (): Promise<void> => {
     await clearRecordedScript();
     await storage.setLocalStorage(storage.keys.statusRunning, true)
 }
@@ -23,7 +23,7 @@ const saveScript = async (): Promise<any> => {
     return await storage.getLocalStorage(storage.keys.recordedScript)
 }
 
-const addScriptItem = async (name: string) => {
+const addScriptItem = async (name: string): Promise<void> => {
     let savedScripts: Array<any> = await storage.getLocalStorage(storage.keys.savedScripts);
     let recordedScript: Array<string> = await storage.getLocalStorage(storage.keys.recordedScript);
     let scripts = savedScripts ?? [];
@@ -31,7 +31,7 @@ const addScriptItem = async (name: string) => {
     await storage.setLocalStorage(storage.keys.savedScripts, scripts);
 }
 
-const getScriptItem = (name: string, scripts: Array<string>) => {
+const getScriptItem = (name: string, scripts: Array<string>): ScriptItem  => {
     let scriptItem = {} as ScriptItem;
     scriptItem.name = name;
     scriptItem.scripts = scripts;

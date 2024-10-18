@@ -1,5 +1,11 @@
 <script setup lang="ts">
-const links = [
+import {RouteLocationAsRelative} from 'vue-router';
+
+interface LinkInterface {
+  path: RouteLocationAsRelative,
+  label: string
+}
+const links: Array<LinkInterface> = [
   {
     path: {
       name: 'Index'

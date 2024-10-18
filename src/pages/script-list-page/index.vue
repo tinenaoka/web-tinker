@@ -22,33 +22,33 @@ let isSetScripts = computed(() => scripts.value.length > 0)
 
 let keySavedScripts: string = storage.keys.savedScripts;
 
-const onRemoveAllScripts = async () => {
+const onRemoveAllScripts = async (): Promise<void> => {
   await storage.clearLocalStorage()
   await getStorageSavedScripts();
 }
 
-const onRunScript = async (idx: number) => {
+const onRunScript = async (idx: number): Promise<void> => {
   await runner.runScript(scripts.value[idx].id)
   await getStorageSavedScripts();
 }
 
-const onStopScript = async (idx: number) => {
+const onStopScript = async (idx: number): Promise<void> => {
   await runner.stopScript(scripts.value[idx].id)
   await getStorageSavedScripts();
 }
 
-const onDeleteScript = async (idx: number) => {
+const onDeleteScript = async (idx: number): Promise<void> => {
   await onStopScript(idx);
   await runner.deleteScript(scripts.value[idx])
   await getStorageSavedScripts();
 }
 
-const getStorageSavedScripts = async () => {
+const getStorageSavedScripts = async (): Promise<void> => {
   let scriptsSaved: Array<ScriptItem> | null = await storage.getLocalStorage(keySavedScripts);
   scripts.value = scriptsSaved ?? [];
 }
 
-addListener(async (message: any) => {
+addListener(async (message: any): Promise<void> => {
   if (message.action !== STOP_SCRIPTING_ACTION) {
     return;
   }
@@ -56,7 +56,7 @@ addListener(async (message: any) => {
   await getStorageSavedScripts();
 })
 
-onMounted(() => {
+onMounted((): void => {
   getStorageSavedScripts();
 })
 </script>

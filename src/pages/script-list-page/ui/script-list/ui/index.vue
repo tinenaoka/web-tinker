@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import {computed, reactive, Reactive} from 'vue';
+import {reactive, Reactive, toRefs} from 'vue';
 import {ScriptListItem} from '../../script-list-item/index';
 
 const props = defineProps({
   scripts: <Reactive<any>>reactive([]),
 });
-let scripts = computed(() => props.scripts);
+const {scripts} = toRefs(props);
 
 const emits = defineEmits(['run-script', 'stop-script', 'delete-script']);
 </script>

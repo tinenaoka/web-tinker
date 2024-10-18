@@ -1,4 +1,4 @@
-export const getDomAbsolutePath = (element: any) => {
+export const getDomAbsolutePath = (element: HTMLElement | null): string => {
     if (!element) {
         return '';
     }
@@ -8,14 +8,14 @@ export const getDomAbsolutePath = (element: any) => {
         if (element.parentNode) {
             let sibling = element;
             let nth = 1;
-            while ((sibling = sibling.previousElementSibling) !== null) {
+            while ((sibling = sibling.previousElementSibling as HTMLElement) !== null) {
                 if (sibling.nodeName === element.nodeName) nth++;
             }
             selector += `:nth-of-type(${nth})`;
         }
 
         path.unshift(selector);
-        element = element.parentNode;
+        element = element.parentNode as HTMLElement;
     }
 
     return path.join(' > ');

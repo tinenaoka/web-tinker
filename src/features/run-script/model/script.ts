@@ -4,8 +4,8 @@ import {ScriptItem} from '../../record-script/model/script';
 
 const storage = useFeatureRecordLocalStorage;
 
-const triggerPageMutation = async () => {
-    injectScript(() => {
+const triggerPageMutation = async (): Promise<void> => {
+    injectScript((): void => {
         let triggerElement = document.createElement('div');
         triggerElement.setAttribute('class', '__trigger-element');
         let content = `
@@ -17,7 +17,8 @@ const triggerPageMutation = async () => {
                 <i>🤣</i>
             </div>
         </div>`;
-        let styles = `<style>
+        let styles = `
+        <style>
             @keyframes icon-rotate {
               to {
                 transform: rotate(360deg);
@@ -51,8 +52,8 @@ const triggerPageMutation = async () => {
     })
 }
 
-const removeTriggerPageMutation = async () => {
-    injectScript(() => {
+const removeTriggerPageMutation = async (): Promise<void> => {
+    injectScript((): void => {
         document.body.querySelector('.__trigger-element')?.remove()
     })
 }
@@ -77,7 +78,7 @@ const getActiveScriptIndexById = async (id: number): Promise<number> => {
     return scripts.findIndex(item => item.id === id);
 }
 
-const changeStatusScript = async (script: ScriptItem, status: boolean) => {
+const changeStatusScript = async (script: ScriptItem, status: boolean): Promise<void> => {
     let newScripts = await getSavedScripts();
     if (newScripts.length === 0) {
         return
@@ -90,21 +91,21 @@ const changeStatusScript = async (script: ScriptItem, status: boolean) => {
     await storage.setLocalStorage(storage.keys.savedScripts, newScripts)
 }
 
-const startRunningSavedScript = async (script: ScriptItem) => {
+const startRunningSavedScript = async (script: ScriptItem): Promise<void> => {
     await changeStatusScript(script, true)
     await storage.setLocalStorage(storage.keys.statusRunningSaved, true)
     await storage.setLocalStorage(storage.keys.idRunningSaved, script.id)
     await storage.setLocalStorage(storage.keys.runningScript, script.scripts)
 }
 
-const stopRunningSavedScript = async (script: ScriptItem) => {
+const stopRunningSavedScript = async (script: ScriptItem): Promise<void> => {
     await changeStatusScript(script, false)
     await storage.setLocalStorage(storage.keys.statusRunningSaved, false)
     await storage.setLocalStorage(storage.keys.idRunningSaved, null)
     await storage.setLocalStorage(storage.keys.runningScript, [])
 }
 
-const runScript = async (id: number) => {
+const runScript = async (id: number): Promise<void> => {
     let script = await getActiveScriptById(id);
     if (!script) {
         return
@@ -113,7 +114,7 @@ const runScript = async (id: number) => {
     await triggerPageMutation();
 }
 
-const stopScript = async (id: number) => {
+const stopScript = async (id: number): Promise<void> => {
     let script = await getActiveScriptById(id);
     if (!script) {
         return
@@ -122,11 +123,11 @@ const stopScript = async (id: number) => {
     await removeTriggerPageMutation();
 }
 
-const stopActiveScript = async () => {
+const stopActiveScript = async (): Promise<void> => {
     await stopScript(await storage.getLocalStorage(storage.keys.idRunningSaved));
 }
 
-const deleteScript = async (script: ScriptItem) => {
+const deleteScript = async (script: ScriptItem): Promise<void> => {
     let newScripts = await getSavedScripts();
     if (newScripts.length === 0) {
         return

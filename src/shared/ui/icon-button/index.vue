@@ -1,13 +1,16 @@
 <script setup lang="ts">
+import {toRefs} from 'vue';
+
 const props = defineProps({
   icon: String,
 });
+const {icon} = toRefs(props);
 </script>
 
 <template>
   <button class="icon-button">
     <slot name="title"></slot>
-    <i :class="props.icon" class="icon"></i>
+    <i :class="icon" class="icon"></i>
   </button>
 </template>
 
