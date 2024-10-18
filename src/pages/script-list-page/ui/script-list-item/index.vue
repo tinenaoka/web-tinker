@@ -11,10 +11,10 @@ const {name, isRunning} = toRefs(props);
 
 const emits = defineEmits(['run-script', 'stop-script', 'delete-script']);
 
-let iconAction = computed(() => isRunning ? icons.stop : icons.run );
+let iconAction = computed(() => isRunning.value ? icons.stop : icons.run );
 
 const onClickToActionIcon = (): void => {
-  isRunning ? emits('stop-script') : emits('run-script')
+  isRunning.value ? emits('stop-script') : emits('run-script')
 }
 
 const onClickToDeleteIcon = (): void => {

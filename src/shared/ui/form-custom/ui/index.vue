@@ -11,9 +11,9 @@ const props = defineProps({
 
 const {isInlineForm, inputs} = toRefs(props);
 
-const classForm = computed(() => isInlineForm ? 'form--inline' : '')
+const classForm = computed(() => isInlineForm.value ? 'form--inline' : '')
 
-let inputsForm = Object.assign([], inputs)
+let inputsForm = Object.assign([], inputs?.value)
   .map((item: InputFieldInterface): InputFieldRefsInterface => {
     const itemRef = structuredClone(item) as unknown as InputFieldRefsInterface;
     for (let key of REFS_OVERRIDE_FIELDS) {
@@ -83,7 +83,7 @@ const validateInput = (input: InputFieldRefsInterface): void => {
     <div class="form__button-submit">
       <main-button
         :disabled="!isCanSubmit"
-        @click="emits('submit', inputs)"
+        @click="emits('submit', inputsForm)"
       >
         <template #title>Save</template>
       </main-button>
