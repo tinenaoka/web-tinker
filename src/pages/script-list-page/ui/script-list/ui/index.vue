@@ -7,7 +7,7 @@ const props = defineProps({
 });
 let scripts = computed(() => props.scripts);
 
-const emits = defineEmits(['run-script', 'stop-script']);
+const emits = defineEmits(['run-script', 'stop-script', 'delete-script']);
 </script>
 
 <template>
@@ -21,6 +21,7 @@ const emits = defineEmits(['run-script', 'stop-script']);
         class="script-list__item"
         @run-script="emits('run-script', idx)"
         @stop-script="emits('stop-script', idx)"
+        @delete-script="emits('delete-script', idx)"
       >
       </script-list-item>
     </div>

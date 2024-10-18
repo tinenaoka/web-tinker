@@ -6,6 +6,7 @@ import {ScriptListNavigation} from './ui/script-list-navigation';
 import {useFeatureRunScript} from '../../features/run-script';
 import {useFeatureRecordLocalStorage} from '../../../chrome/storage';
 import {addListener} from '../../../chrome/runtime/model/addListener';
+import {ScriptItem} from '../../features/record-script/model/script';
 
 let storage = useFeatureRecordLocalStorage;
 
@@ -36,8 +37,14 @@ const onStopScript = async (idx: number) => {
   await getStorageSavedScripts();
 }
 
+const onDeleteScript = async (idx: number) => {
+  await onStopScript(idx);
+  await runner.deleteScript(scripts.value[idx])
+  await getStorageSavedScripts();
+}
+
 const getStorageSavedScripts = async () => {
-  let scriptsSaved: unknown = await storage.getLocalStorage(keySavedScripts);
+  let scriptsSaved: Array<ScriptItem> | null = await storage.getLocalStorage(keySavedScripts);
   scripts.value = scriptsSaved ?? [];
 }
 
@@ -64,6 +71,7 @@ onMounted(() => {
           :scripts="scripts.value"
           @run-script="onRunScript"
           @stop-script="onStopScript"
+          @delete-script="onDeleteScript"
         />
       </div>
       <script-list-navigation @remove-all-scripts="onRemoveAllScripts" />

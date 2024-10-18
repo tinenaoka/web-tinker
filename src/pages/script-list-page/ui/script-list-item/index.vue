@@ -7,12 +7,16 @@ const props = defineProps({
   name: String,
   isRunning: Boolean,
 });
-const emits = defineEmits(['run-script', 'stop-script']);
+const emits = defineEmits(['run-script', 'stop-script', 'delete-script']);
 
 let iconAction = computed(() => props.isRunning ? icons.stop : icons.run );
 
 const onClickToActionIcon = () => {
   props.isRunning ? emits('stop-script') : emits('run-script')
+}
+
+const onClickToDeleteIcon = () => {
+  emits('delete-script')
 }
 </script>
 
@@ -27,6 +31,7 @@ const onClickToActionIcon = () => {
       <icon-button
         :icon="icons.close"
         :disabled="props.isRunning"
+        @click="onClickToDeleteIcon"
       />
     </div>
   </div>

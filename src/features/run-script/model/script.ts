@@ -126,8 +126,22 @@ const stopActiveScript = async () => {
     await stopScript(await storage.getLocalStorage(storage.keys.idRunningSaved));
 }
 
+const deleteScript = async (script: ScriptItem) => {
+    let newScripts = await getSavedScripts();
+    if (newScripts.length === 0) {
+        return
+    }
+    let index = await getActiveScriptIndexById(script.id);
+    if (index < 0) {
+        return
+    }
+    newScripts.splice(index, 1);
+    await storage.setLocalStorage(storage.keys.savedScripts, newScripts);
+}
+
 export const useFeatureRunScript = {
     runScript,
     stopScript,
+    deleteScript,
     stopActiveScript
 }
