@@ -1,6 +1,6 @@
-import {useFeatureRecordLocalStorage} from './storage';
-import {sendMessage} from './chorme';
-
+import {ActionsEvent} from '../../../entities';
+import {useFeatureRecordLocalStorage} from '../../../chrome/storage';
+import {sendMessageFromExtension} from '../../../chrome/runtime/model/sendMessageFromExtension';
 const storage = useFeatureRecordLocalStorage;
 
 export const onChangeEvent = async (): Promise<void> => {
@@ -12,5 +12,5 @@ export const onChangeEvent = async (): Promise<void> => {
     if (runningScript.length !== 0) {
         return
     }
-    sendMessage('stop-scripting', true);
+    sendMessageFromExtension(ActionsEvent.StopScripting, true);
 }

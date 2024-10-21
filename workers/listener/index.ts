@@ -1,11 +1,11 @@
-import {ACTIONS_EVENT} from './actions';
 import {onClickEvent} from './model/onClickEvent';
 import {onChangeEvent} from './model/onChangeEvent';
-import {addListener} from './model/chorme';
+import {ActionsEvent} from '../../entities';
+import {addListener} from '../../chrome/runtime/model/addListener';
 
-let listenerAction  = { ...ACTIONS_EVENT } as ACTIONS_EVENT;
-listenerAction.changeDom = onChangeEvent;
-listenerAction.click = onClickEvent;
+let listenerAction  = {};
+listenerAction[ActionsEvent.Click] = onClickEvent;
+listenerAction[ActionsEvent.ChangeDom] = onChangeEvent;
 
 addListener(({action, data}) => {
     let activeAction = listenerAction[action];

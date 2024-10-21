@@ -1,5 +1,5 @@
 import {sendMessageFromExtension} from '../../../chrome/runtime/model/sendMessageFromExtension';
-import {useFeatureRecordLocalStorage} from './storage';
+import {useFeatureRecordLocalStorage} from '../../../chrome/storage';
 
 const CONFIG_CHANGE_DOM = { childList: true, subtree: true };
 

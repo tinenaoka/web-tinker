@@ -7,10 +7,11 @@ import {useFeatureRunScript} from '../../features/run-script';
 import {useFeatureRecordLocalStorage} from '../../../chrome/storage';
 import {addListener} from '../../../chrome/runtime/model/addListener';
 import {ScriptItem} from '../../features/record-script/model/script';
+import {ActionsEvent} from '../../../entities';
 
 let storage = useFeatureRecordLocalStorage;
 
-const STOP_SCRIPTING_ACTION = 'stop-scripting';
+const STOP_SCRIPTING_ACTION = ActionsEvent.StopScripting;
 
 let runner = useFeatureRunScript;
 

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc -b && vite build",
+    "build": "vue-tsc -b && cross-env INPUT=sender vite build && cross-env INPUT=listener vite build && cross-env INPUT=main vite build && rimraf dist/listener/images && rimraf dist/listener/favicon.ico && rimraf dist/sender/images && rimraf dist/sender/favicon.ico",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -17,6 +17,8 @@
     "@types/chrome": "^0.0.278",
     "@types/node": "^22.7.5",
     "@vitejs/plugin-vue": "^5.1.2",
+    "cross-env": "^7.0.3",
+    "rimraf": "^6.0.1",
     "sass": "^1.62.0",
     "typescript": "^5.5.3",
     "vite": "^5.4.1",
