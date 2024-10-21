@@ -1,0 +1,27 @@
+@import 'src/app/styles/global';
+
+.script-list {
+  padding-top: 20px;
+  height: $global-content-height;
+
+  &__container {
+    max-height: calc($global-content-height - 70px);
+  }
+
+  &__navigation {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  &__not-found {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+
+    a {
+
+    }
+  }
+}

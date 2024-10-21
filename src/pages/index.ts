@@ -18,4 +18,4 @@ export const routes = [
     },
 ];
 
-export { Routing };
+export {Routing};

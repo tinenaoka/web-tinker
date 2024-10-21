@@ -1,4 +1,4 @@
-import {useFeatureRecordLocalStorage} from '../../../chrome/storage';
+import {useFeatureRecordLocalStorage} from '../../../browser/storage';
 
 const storage = useFeatureRecordLocalStorage;
 

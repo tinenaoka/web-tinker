@@ -1,9 +1,9 @@
-import {sendMessageFromChrome} from '../../../chrome/runtime/model/sendMessageFromChrome';
-import {getDomAbsolutePath} from '../../../chrome/utils/model/getAbsolutePathFromEvent';
+import {sendMessageFromBrowser} from '../../../browser/runtime/model/sendMessageFromBrowser';
+import {getDomAbsolutePath} from '../../../browser/utils/model/getAbsolutePathFromEvent';
 
 export const onClickSender = (actionName: string) => {
     const handlerClick = (event: Event) => {
-        sendMessageFromChrome(actionName, getDomAbsolutePath(<HTMLElement>event.target))
+        sendMessageFromBrowser(actionName, getDomAbsolutePath(<HTMLElement>event.target))
     }
     document.addEventListener('click', handlerClick, true)
 }

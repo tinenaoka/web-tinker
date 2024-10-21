@@ -15,11 +15,19 @@
   "host_permissions": [
     "https://*/*"
   ],
-  "permissions": ["scripting", "activeTab", "storage"],
+  "permissions": [
+    "scripting",
+    "activeTab",
+    "storage"
+  ],
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["dist/sender/index.js"],
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "dist/sender/index.js"
+      ],
       "run_at": "document_end"
     }
   ]

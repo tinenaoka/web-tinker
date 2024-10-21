@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {routes, Routing} from '../pages';
-import {LayoutIndex} from '../widgets/layout'
+import {IndexLayout} from './ui/index-layout'
 import {useRoute} from 'vue-router';
 import {computed} from 'vue';
 
@@ -15,11 +15,11 @@ let classLayout = computed(() => {
 
 <template>
   <div class="app">
-    <layout-index
+    <index-layout
       :class="classLayout"
     >
       <routing/>
-    </layout-index>
+    </index-layout>
   </div>
 </template>
 

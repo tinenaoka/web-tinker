@@ -1,4 +1,4 @@
-import {useFeatureRecordLocalStorage} from '../../../../chrome/storage';
+import {useFeatureRecordLocalStorage} from '../../../../browser/storage';
 
 const storage = useFeatureRecordLocalStorage;
 
@@ -31,7 +31,7 @@ const addScriptItem = async (name: string): Promise<void> => {
     await storage.setLocalStorage(storage.keys.savedScripts, scripts);
 }
 
-const getScriptItem = (name: string, scripts: Array<string>): ScriptItem  => {
+const getScriptItem = (name: string, scripts: Array<string>): ScriptItem => {
     let scriptItem = <ScriptItem>{};
     scriptItem.name = name;
     scriptItem.scripts = scripts;

@@ -1,13 +1,13 @@
 import {onClickEvent} from './model/onClickEvent';
 import {onChangeEvent} from './model/onChangeEvent';
 import {ActionsEvent} from '../../entities';
-import {addListener} from '../../chrome/runtime/model/addListener';
+import {addMessageListener} from '../../browser/runtime/model/addMessageListener';
 
-let listenerAction  = {};
+let listenerAction = {};
 listenerAction[ActionsEvent.Click] = onClickEvent;
 listenerAction[ActionsEvent.ChangeDom] = onChangeEvent;
 
-addListener(({action, data}) => {
+addMessageListener(({action, data}) => {
     let activeAction = listenerAction[action];
     if (!activeAction) {
         return

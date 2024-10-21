@@ -1,0 +1,53 @@
+@import 'src/app/styles/vars';
+
+$run-button-width: 130px;
+$run-button-bg-inside: #dedede;
+$run-button-bg-inside-active: #c8c8c8;
+$run-button-bg: #d2d2d2;
+$run-button-outline: 1px solid #c8c8c8;
+$run-button-border: 1px solid #c8c8c8;
+$run-button-box-shadow: 1px 0 14px 2px #cecece;
+
+.run-button {
+  button {
+    background: $run-button-bg;
+    border-radius: 50%;
+    padding: 10px;
+    outline: $run-button-outline;
+    margin: 0 auto;
+    display: block;
+    cursor: pointer;
+
+    span {
+      width: $run-button-width;
+      height: $run-button-width;
+      background: $run-button-bg-inside;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto;
+      padding: 10px;
+      border: $run-button-border;
+      font-size: 12px;
+      text-transform: uppercase;
+      font-family: $font-family-semi;
+    }
+
+    &:hover {
+      box-shadow: $run-button-box-shadow;
+      transition: 0.3s ease;
+    }
+  }
+}
+
+.run-button:active,
+.run-button--running {
+  button {
+    box-shadow: none;
+
+    span {
+      background: $run-button-bg-inside-active;
+    }
+  }
+}

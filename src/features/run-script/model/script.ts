@@ -1,5 +1,5 @@
-import {useFeatureRecordLocalStorage} from '../../../../chrome/storage';
-import {injectScript} from '../../../../chrome/scripting/model/injectScript';
+import {useFeatureRecordLocalStorage} from '../../../../browser/storage';
+import {injectScript} from '../../../../browser/scripting/model/injectScript';
 import {ScriptItem} from '../../record-script/model/script';
 
 const storage = useFeatureRecordLocalStorage;
@@ -59,7 +59,7 @@ const removeTriggerPageMutation = async (): Promise<void> => {
 }
 
 const getSavedScripts = async (): Promise<ScriptItem[] | []> => {
-  return await storage.getLocalStorage(storage.keys.savedScripts) ?? []
+    return await storage.getLocalStorage(storage.keys.savedScripts) ?? []
 }
 
 const getActiveScriptById = async (id: number): Promise<ScriptItem | undefined> => {

@@ -1,4 +1,6 @@
-This project uses a browser plugin to test websites directly in the browser. It enables running automated or manual tests on live sites, capturing interactions, verifying functionality, and tracking performance, helping developers ensure quality and usability in real-time.
+This project uses a browser plugin to test websites directly in the browser. It enables running automated or manual
+tests on live sites, capturing interactions, verifying functionality, and tracking performance, helping developers
+ensure quality and usability in real-time.
 <h1>Setup</h1>
 <b>Build</b><br><br>
 <code>npm i</code>

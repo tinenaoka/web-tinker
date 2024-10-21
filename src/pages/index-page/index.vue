@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import {RecordScript} from '../../widgets/record-script'
+import {ScriptRecorder} from '../../widgets/script-recorder'
 </script>
 
 <template>
   <div class="index-page">
     <div class="index-page__container">
-      <record-script/>
+      <script-recorder/>
     </div>
   </div>
 </template>
 
 <style>
-@import "styles.scss";
+@import "style.scss";
 </style>

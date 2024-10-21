@@ -1,6 +1,7 @@
 import {ActionsEvent} from '../../../entities';
-import {useFeatureRecordLocalStorage} from '../../../chrome/storage';
-import {sendMessageFromExtension} from '../../../chrome/runtime/model/sendMessageFromExtension';
+import {useFeatureRecordLocalStorage} from '../../../browser/storage';
+import {sendMessageFromExtension} from '../../../browser/runtime/model/sendMessageFromExtension';
+
 const storage = useFeatureRecordLocalStorage;
 
 export const onChangeEvent = async (): Promise<void> => {

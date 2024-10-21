@@ -1,1 +1,1 @@
-export { useFeatureRecordScript } from './script';
+export {useFeatureRecordScript} from './script';

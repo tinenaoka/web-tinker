@@ -1,1 +1,0 @@
-export { useFeatureRecordLocalStorage } from './storage';
