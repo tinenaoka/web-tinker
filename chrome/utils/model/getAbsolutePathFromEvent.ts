@@ -8,14 +8,14 @@ export const getDomAbsolutePath = (element: HTMLElement | null): string => {
         if (element.parentNode) {
             let sibling = element;
             let nth = 1;
-            while ((sibling = sibling.previousElementSibling as HTMLElement) !== null) {
+            while ((sibling = <HTMLElement>sibling.previousElementSibling) !== null) {
                 if (sibling.nodeName === element.nodeName) nth++;
             }
             selector += `:nth-of-type(${nth})`;
         }
 
         path.unshift(selector);
-        element = element.parentNode as HTMLElement;
+        element = <HTMLElement>element.parentNode;
     }
 
     return path.join(' > ');

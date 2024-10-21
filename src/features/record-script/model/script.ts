@@ -32,7 +32,7 @@ const addScriptItem = async (name: string): Promise<void> => {
 }
 
 const getScriptItem = (name: string, scripts: Array<string>): ScriptItem  => {
-    let scriptItem = {} as ScriptItem;
+    let scriptItem = <ScriptItem>{};
     scriptItem.name = name;
     scriptItem.scripts = scripts;
     scriptItem.id = new Date().getTime();

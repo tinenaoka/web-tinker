@@ -3,7 +3,7 @@ import {getDomAbsolutePath} from '../../../chrome/utils/model/getAbsolutePathFro
 
 export const onClickSender = (actionName: string) => {
     const handlerClick = (event: Event) => {
-        sendMessageFromChrome(actionName, getDomAbsolutePath(event.target as HTMLElement))
+        sendMessageFromChrome(actionName, getDomAbsolutePath(<HTMLElement>event.target))
     }
     document.addEventListener('click', handlerClick, true)
 }

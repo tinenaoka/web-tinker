@@ -6,7 +6,7 @@ const CONFIG_CHANGE_DOM = { childList: true, subtree: true };
 const storage = useFeatureRecordLocalStorage;
 
 const clickToElementFromSelector = (selector: string): boolean => {
-    let node = document.querySelector(selector) as HTMLElement;
+    let node = <HTMLElement>document.querySelector(selector);
     if (!node) {
         return false
     }
