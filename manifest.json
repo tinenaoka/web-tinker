@@ -4,7 +4,7 @@
   "version": "1.0",
   "manifest_version": 3,
   "icons": {
-    "16": "public/favicon.ico"
+    "16": "dist/main/favicon.ico"
   },
   "action": {
     "default_popup": "dist/main/index.html"
