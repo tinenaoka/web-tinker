@@ -1,16 +1,13 @@
-import {useFeatureRecordLocalStorage} from '../../../browser/storage';
+import {useFeatureRecordScript} from '../../../src/features/record-script';
+import {useFeatureRunScript} from '../../../src/features/run-script';
 
-const storage = useFeatureRecordLocalStorage;
+const recordScript = useFeatureRecordScript;
+const runScript = useFeatureRunScript;
 
-export const onClickEvent = async (absolutePath: string): Promise<void> => {
-    let isRunningStatus = await storage.getLocalStorage(storage.keys.statusRunning)
+export const onClickEvent = async (selector: string): Promise<void> => {
+    let isRunningStatus = await runScript.getStatusRunning();
     if (!isRunningStatus) {
         return
     }
-    let recordedScript = await storage.getLocalStorage(storage.keys.recordedScript);
-    if (!recordedScript) {
-        return
-    }
-    recordedScript.push(absolutePath);
-    await storage.setLocalStorage(storage.keys.recordedScript, recordedScript);
+    await recordScript.addScriptRecordedItem(selector)
 }

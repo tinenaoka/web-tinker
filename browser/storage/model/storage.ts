@@ -5,6 +5,7 @@ const keys = {
     runningScript: 'runningScript',
     statusRunningSaved: 'isRunningSaved',
     idRunningSaved: 'idRunningSaved',
+    bugReportScript: 'bugReportScript',
 }
 
 const getLocalStorage = async (key: string): Promise<any | null> => {

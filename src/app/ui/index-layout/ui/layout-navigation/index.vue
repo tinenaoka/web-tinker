@@ -15,6 +15,12 @@ const links: Array<LinkInterface> = [
   },
   {
     path: {
+      name: 'BugReport'
+    },
+    label: 'Bug Report',
+  },
+  {
+    path: {
       name: 'ScriptList'
     },
     label: 'Scripts',

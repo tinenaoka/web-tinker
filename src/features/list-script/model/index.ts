@@ -1,0 +1,1 @@
+export {useFeatureListScript} from './script';

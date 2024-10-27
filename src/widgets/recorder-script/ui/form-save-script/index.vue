@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {FormApp} from '../../../../shared/ui/form-app/index'
-import {InputField, InputFieldInterface, InputFieldRefsInterface} from '../../../../shared/ui/form-app/model';
+import {AppForm} from '../../../../shared/ui/app-form/index'
+import {InputField, InputFieldInterface, InputFieldRefsInterface} from '../../../../shared/ui/app-form/model';
 
 const emits = defineEmits(['save-script']);
 
@@ -23,7 +23,7 @@ const onSaveScript = (inputs: Array<InputFieldRefsInterface>) => {
 
 <template>
   <div class="save-script-form">
-    <form-app
+    <app-form
       :inputs="inputsForm"
       :is-inline-form="true"
       @submit="onSaveScript"

@@ -1,0 +1,1 @@
+export {useFeatureBugReportScript} from './script';

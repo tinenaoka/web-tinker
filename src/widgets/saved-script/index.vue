@@ -6,22 +6,18 @@ import {ScriptListNavigation} from './ui/script-list-navigation';
 import {useFeatureRunScript} from '../../features/run-script';
 import {useFeatureRecordLocalStorage} from '../../../browser/storage';
 import {addMessageListener} from '../../../browser/runtime/model/addMessageListener';
-import {ScriptItem} from '../../features/record-script/model/script';
 import {ActionsEvent} from '../../../entities';
+import {useFeatureListScript} from '../../features/list-script';
 
 let storage = useFeatureRecordLocalStorage;
-
-const STOP_SCRIPTING_ACTION = ActionsEvent.StopScripting;
-
 let runner = useFeatureRunScript;
+let listScript = useFeatureListScript;
 
 let scripts = <Reactive<any>>reactive({
   value: []
 });
 
 let isSetScripts = computed(() => scripts.value.length > 0)
-
-let keySavedScripts: string = storage.keys.savedScripts;
 
 const onRemoveAllScripts = async (): Promise<void> => {
   await storage.clearLocalStorage()
@@ -40,17 +36,16 @@ const onStopScript = async (idx: number): Promise<void> => {
 
 const onDeleteScript = async (idx: number): Promise<void> => {
   await onStopScript(idx);
-  await runner.deleteScript(scripts.value[idx])
+  await listScript.deleteScript(scripts.value[idx])
   await getStorageSavedScripts();
 }
 
 const getStorageSavedScripts = async (): Promise<void> => {
-  let scriptsSaved: Array<ScriptItem> | null = await storage.getLocalStorage(keySavedScripts);
-  scripts.value = scriptsSaved ?? [];
+  scripts.value = await listScript.getSavedScripts();
 }
 
 addMessageListener(async (message: any): Promise<void> => {
-  if (message.action !== STOP_SCRIPTING_ACTION) {
+  if (message.action !== ActionsEvent.StopScripting) {
     return;
   }
   await runner.stopActiveScript()

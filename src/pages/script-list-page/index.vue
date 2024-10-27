@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import {ScriptSaved} from '../../widgets/script-saved';
+import {SavedScript} from '../../widgets/saved-script';
 </script>
 
 <template>
   <div class="script-list-page">
     <div class="script-list-page__container">
-      <script-saved/>
+      <saved-script/>
     </div>
   </div>
 </template>

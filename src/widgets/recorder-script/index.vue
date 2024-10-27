@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import {RoundButton} from '../../shared/ui/round-button'
+import {RunButton} from '../../shared/ui/run-button'
 import {SaveScriptForm} from './ui/form-save-script'
 import {computed, onMounted, Reactive, reactive, ref, Ref} from 'vue';
 import {useFeatureRecordScript} from '../../features/record-script'
-import {useFeatureRecordLocalStorage} from '../../../browser/storage';
+import {useFeatureListScript} from '../../features/list-script';
+import {useFeatureRunScript} from '../../features/run-script';
 
 let script = useFeatureRecordScript;
-let storage = useFeatureRecordLocalStorage;
+let listScript = useFeatureListScript;
+let runScript = useFeatureRunScript;
 
 let isRunning = <Ref>ref(false);
 let recordedScript = <Reactive<any>>reactive({
   value: []
 });
-let keyIsRunningStorage: string = storage.keys.statusRunning;
 
 const isShowRunButton = computed(() =>
   recordedScript.value.length === 0
@@ -36,11 +37,11 @@ const removeRecordedScript = (): void => {
 }
 
 const onSaveScript = async (scriptName: string): Promise<void> => {
-  await script.addScriptItem(scriptName);
+  await listScript.addScriptItem(scriptName);
   removeRecordedScript();
 }
 onMounted(async (): Promise<void> => {
-  let isRunningStore: unknown = await storage.getLocalStorage(keyIsRunningStorage);
+  let isRunningStore: boolean | null = await runScript.getStatusRunning();
   if (isRunningStore === null) {
     return
   }
@@ -51,7 +52,7 @@ onMounted(async (): Promise<void> => {
 <template>
   <div class="record-script">
     <div class="record-script__container">
-      <round-button
+      <run-button
         v-show="isShowRunButton"
         :text="'Record script'"
         :text-stop="'Stop'"

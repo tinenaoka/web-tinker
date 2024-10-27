@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import {ScriptRecorder} from '../../widgets/script-recorder'
+import {RecorderScript} from '../../widgets/recorder-script'
 </script>
 
 <template>
   <div class="index-page">
     <div class="index-page__container">
-      <script-recorder/>
+      <recorder-script/>
     </div>
   </div>
 </template>

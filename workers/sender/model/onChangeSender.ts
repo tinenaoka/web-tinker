@@ -1,9 +1,10 @@
 import {sendMessageFromExtension} from '../../../browser/runtime/model/sendMessageFromExtension';
-import {useFeatureRecordLocalStorage} from '../../../browser/storage';
+import {Script} from '../../../entities';
+import {useFeatureRunScript} from '../../../src/features/run-script';
 
 const CONFIG_CHANGE_DOM = {childList: true, subtree: true};
 
-const storage = useFeatureRecordLocalStorage;
+const runScript = useFeatureRunScript;
 
 const clickToElementFromSelector = (selector: string): boolean => {
     let node = <HTMLElement>document.querySelector(selector);
@@ -19,25 +20,22 @@ const saveCurrentScriptRunning = async (): Promise<void> => {
     if (runningScript.length > 0) {
         runningScript.splice(0, 1)
     }
-    return await storage.setLocalStorage(
-        storage.keys.runningScript,
-        runningScript
-    );
+    return await runScript.setRunningScript(runningScript);
+}
+
+const getRunningScript = async (): Promise<Array<Script> | []> => {
+    return await runScript.getRunningScript();
 }
 
 const whitForAnimation = async (timeAnimation: number): Promise<void> => {
     return await new Promise((resolve) => setTimeout(resolve, timeAnimation));
 }
 
-const getRunningScript = async (): Promise<Array<string> | []> => {
-    return await storage.getLocalStorage(storage.keys.runningScript) ?? []
-}
-
-const getNextElementNode = (runningScript: Array<string> | [], index = 0): HTMLElement | null => {
+const getNextElementNode = (runningScript: Array<Script> | [], index = 0): HTMLElement | null => {
     if (runningScript.length === 0) {
         return null
     }
-    return document.querySelector(runningScript[index])
+    return document.querySelector(runningScript[index]?.selector)
 }
 
 const whitForNextElement = async (): Promise<HTMLElement | boolean> => {
@@ -98,7 +96,7 @@ const whitForElementIsShowingOnPage = (nextElement: HTMLElement): Promise<boolea
 export const onChangeSender = (actionMame: string, timeAnimation = 500): void => {
     let isCanNextScriptAction = true;
     const observer = new MutationObserver(async (): Promise<void> => {
-        let isHaveRunningScript = await storage.getLocalStorage(storage.keys.statusRunningSaved);
+        let isHaveRunningScript = await runScript.getStatusRunningSaved();
         if (!isHaveRunningScript) {
             return
         }
@@ -106,8 +104,8 @@ export const onChangeSender = (actionMame: string, timeAnimation = 500): void =>
             return
         }
         isCanNextScriptAction = false;
-        for (let selector of await getRunningScript()) {
-            if (clickToElementFromSelector(selector)) {
+        for (let script of await getRunningScript()) {
+            if (clickToElementFromSelector(script.selector)) {
                 console.log('-------CLICK--------')
                 await saveCurrentScriptRunning();
                 await whitForAnimation(timeAnimation);

@@ -1,48 +1,40 @@
 import {useFeatureRecordLocalStorage} from '../../../../browser/storage';
-
-const storage = useFeatureRecordLocalStorage;
-
-export interface ScriptItem {
-    name: string;
-    scripts: Array<string>;
-    id: number;
-    isRunning: boolean
-}
+import {useFeatureRunScript} from '../../run-script';
+import {Script} from '../../../../entities';
+import {setScriptItem} from '../../../../entities';
 
 const clearRecordedScript = async (): Promise<void> => {
-    await storage.setLocalStorage(storage.keys.recordedScript, [])
+    await setRecordedScript([]);
 }
 
 const recordScript = async (): Promise<void> => {
     await clearRecordedScript();
-    await storage.setLocalStorage(storage.keys.statusRunning, true)
+    await useFeatureRunScript.setStatusRunning(true)
 }
 
-const saveScript = async (): Promise<any> => {
-    await storage.setLocalStorage(storage.keys.statusRunning, false)
-    return await storage.getLocalStorage(storage.keys.recordedScript)
+const saveScript = async (): Promise<Array<Script> | []> => {
+    await useFeatureRunScript.setStatusRunning(false)
+    return await getRecordedScript();
 }
 
-const addScriptItem = async (name: string): Promise<void> => {
-    let savedScripts: Array<any> = await storage.getLocalStorage(storage.keys.savedScripts);
-    let recordedScript: Array<string> = await storage.getLocalStorage(storage.keys.recordedScript);
-    let scripts = savedScripts ?? [];
-    scripts.unshift(getScriptItem(name, recordedScript));
-    await storage.setLocalStorage(storage.keys.savedScripts, scripts);
+const getRecordedScript = async (): Promise<Array<Script> | []> => {
+  return await useFeatureRecordLocalStorage.getLocalStorage(useFeatureRecordLocalStorage.keys.recordedScript) ?? []
 }
 
-const getScriptItem = (name: string, scripts: Array<string>): ScriptItem => {
-    let scriptItem = <ScriptItem>{};
-    scriptItem.name = name;
-    scriptItem.scripts = scripts;
-    scriptItem.id = new Date().getTime();
-    scriptItem.isRunning = false;
-    return scriptItem
+const addScriptRecordedItem = async (selector: string): Promise<void> => {
+    let recordedScript = await getRecordedScript();
+    recordedScript.push(<never>setScriptItem(selector));
+    await setRecordedScript(recordedScript);
 }
 
+const setRecordedScript = async (recordedScript: Array<Script> | []) => {
+  await useFeatureRecordLocalStorage.setLocalStorage(useFeatureRecordLocalStorage.keys.recordedScript, recordedScript);
+}
 
 export const useFeatureRecordScript = {
+    getRecordedScript,
+    setRecordedScript,
     recordScript,
     saveScript,
-    addScriptItem,
+    addScriptRecordedItem,
 }

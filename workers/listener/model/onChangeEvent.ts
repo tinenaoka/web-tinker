@@ -1,15 +1,15 @@
 import {ActionsEvent} from '../../../entities';
-import {useFeatureRecordLocalStorage} from '../../../browser/storage';
 import {sendMessageFromExtension} from '../../../browser/runtime/model/sendMessageFromExtension';
+import {useFeatureRunScript} from '../../../src/features/run-script';
 
-const storage = useFeatureRecordLocalStorage;
+const runScript = useFeatureRunScript;
 
 export const onChangeEvent = async (): Promise<void> => {
-    let isHaveRunningScript = await storage.getLocalStorage(storage.keys.statusRunningSaved);
-    if (!isHaveRunningScript) {
+    let isRunningStatusSaved = await runScript.getStatusRunningSaved();
+    if (!isRunningStatusSaved) {
         return
     }
-    let runningScript = await storage.getLocalStorage(storage.keys.runningScript) ?? [];
+    let runningScript = await runScript.getRunningScript();
     if (runningScript.length !== 0) {
         return
     }

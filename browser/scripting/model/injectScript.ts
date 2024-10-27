@@ -10,7 +10,8 @@ export const injectScript = (
     chrome.tabs.query(
         {active: true},
         (tabs: Array<any>): void => {
-            let activeTab = tabs.sort((a, b) => b.lastAccessed - a.lastAccessed)[0];
+            let activeTab = tabs.filter(tab => tab.lastAccessed !== undefined)
+                .sort((a, b) => b.lastAccessed - a.lastAccessed)[0];
             if (!activeTab) {
                 return
             }
