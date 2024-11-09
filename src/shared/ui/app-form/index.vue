@@ -1,41 +1,49 @@
 <script setup lang="ts">
-import {computed, ref, toRefs, watch} from 'vue';
-import {InputFieldInterface, InputFieldRefsInterface, REFS_OVERRIDE_FIELDS} from './model';
+import {computed, onMounted, ref, toRefs, watch} from 'vue';
+import {
+  InputFieldInterface,
+  InputFieldRefsInterface,
+  RangeFieldInterface,
+  RangeFieldRefsInterface,
+  REFS_INPUT_OVERRIDE_FIELDS,
+  REFS_RANGE_OVERRIDE_FIELDS
+} from './model';
 import {MainButton} from '../main-button';
+import {InputFiled} from './ui/input-filed/index';
+import {RangeFiled} from './ui/range-filed/index';
 
 const emits = defineEmits(['submit'])
 const props = defineProps({
   inputs: Array<InputFieldInterface>,
-  isInlineForm: Boolean
+  ranges: Array<RangeFieldInterface>,
+  isInlineForm: Boolean,
+  isNeedValidateFormOnInit: {
+    default: false
+  },
 });
 
-const {isInlineForm, inputs} = toRefs(props);
+const {isInlineForm, inputs, ranges} = toRefs(props);
 
 const classForm = computed(() => isInlineForm.value ? 'form--inline' : '')
 
 let inputsForm = Object.assign([], inputs?.value)
   .map((item: InputFieldInterface): InputFieldRefsInterface => {
     const itemRef = structuredClone(item) as unknown as InputFieldRefsInterface;
-    for (let key of REFS_OVERRIDE_FIELDS) {
-      itemRef[key] = ref(item.value ?? '')
+    for (let key of REFS_INPUT_OVERRIDE_FIELDS) {
+      itemRef[key] = ref(item[key] ?? '');
     }
     return itemRef;
   })
-let isCanSubmit = false;
-
-watch(
-  () => inputsForm || [],
-  (inputs: Array<InputFieldRefsInterface>) => {
-    isCanSubmit = true;
-    let inputError = inputs.find(item => {
-      return item.error.value !== ''
-    });
-    if (inputError !== undefined) {
-      isCanSubmit = false;
+let rangesForm = Object.assign([], ranges?.value)
+  .map((item: RangeFieldInterface): RangeFieldRefsInterface => {
+    const itemRef = structuredClone(item) as unknown as RangeFieldRefsInterface;
+    for (let key of REFS_RANGE_OVERRIDE_FIELDS) {
+      itemRef[key] = ref(item[key] ?? 0);
     }
-  },
-  {deep: true}
-)
+    return itemRef;
+  })
+
+let isCanSubmit = ref(false);
 
 const getRequiredError = (name: string): string => {
   return `The field ${name} is required`
@@ -55,6 +63,48 @@ const validateInput = (input: InputFieldRefsInterface): void => {
   }
 }
 
+const onInputField = (inputFieldData: {idx: number, value: string}) => {
+  let input = inputsForm[inputFieldData.idx];
+  input.value.value = inputFieldData.value;
+  validateInput(input);
+}
+
+const onChangeRange = (rangeData: {idx: number, min: number, max: number}) => {
+  let range = rangesForm[rangeData.idx];
+  range.valueMin.value = rangeData.min;
+  range.valueMax.value = rangeData.max;
+}
+
+const onSubmit = () => {
+  emits('submit', {
+    inputs: inputsForm,
+    ranges: rangesForm
+  })
+}
+
+const validateInputs = (inputs: Array<InputFieldRefsInterface>) => {
+  isCanSubmit.value = true;
+  let inputError = inputs.find(item => {
+    return item.error.value !== ''
+  });
+  if (inputError !== undefined) {
+    isCanSubmit.value = false;
+  }
+}
+
+watch(
+  () => inputsForm || [],
+  (inputs: Array<InputFieldRefsInterface>) => {
+    validateInputs(inputs)
+  },
+  {deep: true}
+)
+
+onMounted(() => {
+  if (props.isNeedValidateFormOnInit) {
+    validateInputs(inputsForm)
+  }
+})
 </script>
 
 <template>
@@ -67,23 +117,40 @@ const validateInput = (input: InputFieldRefsInterface): void => {
       :key="idx"
       class="form__group"
     >
-      <input
-        v-model="input.value.value"
-        :type="input.type"
-        :disabled="input.isDisabled"
-        :placeholder="input.placeholder"
-        @input="validateInput(input)"
+      <input-filed
+        :input="input"
+        :idx="idx"
+        @input="onInputField"
+      />
+    </div>
+    <div
+      v-for="(range, idx) in rangesForm"
+      :key="idx"
+      class="form__group"
+    >
+      <range-filed
+        :idx="idx"
+        :range="range"
+        @change-values="onChangeRange"
       >
-      <span
-        v-html="input.error.value"
-        class="form__group__error"
-      >
-      </span>
+        <template #placeholder-min>
+          <slot :name="'placeholder-min-' + idx"></slot>
+        </template>
+        <template #placeholder-max>
+          <slot :name="'placeholder-max-' + idx"></slot>
+        </template>
+        <template #current-value-min>
+          <slot :name="'current-value-min-' + idx" :range="range"></slot>
+        </template>
+        <template #current-value-max>
+          <slot :name="'current-value-max-' + idx" :range="range"></slot>
+        </template>
+      </range-filed>
     </div>
     <div class="form__button-submit">
       <main-button
         :disabled="!isCanSubmit"
-        @click="emits('submit', inputsForm)"
+        @click="onSubmit"
       >
         <template #title>Save</template>
       </main-button>

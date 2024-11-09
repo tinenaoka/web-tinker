@@ -1,0 +1,92 @@
+<script setup lang="ts">
+import {AppForm} from '../../../../shared/ui/app-form/index';
+import {
+  InputField,
+  RangeField,
+  InputFieldInterface,
+  InputFieldRefsInterface,
+  RangeFieldInterface, RangeFieldRefsInterface
+} from '../../../../shared/ui/app-form/model';
+import {useFeatureBugReportScript} from '../../../../features/bug-script';
+
+const bugScript = useFeatureBugReportScript;
+const emits = defineEmits(['save-script']);
+const timeStamp = {
+  min: 1731176560254,
+  max: 1731176567995
+};
+
+let textInput = {
+  ...Object.assign({}, InputField),
+  type: 'text',
+  isRequired: true,
+  name: 'name',
+  placeholder: 'name',
+  value: bugScript.generateBugScriptName(),
+} as unknown as InputFieldInterface;
+
+let rangeInput = {
+  ...Object.assign({}, RangeField),
+  isRequired: true,
+  min: timeStamp.min,
+  max: timeStamp.max,
+  valueMin: timeStamp.min,
+  valueMax: timeStamp.max,
+  step: 0
+} as unknown as RangeFieldInterface;
+
+const inputsForm: Array<InputFieldInterface> = [
+  textInput,
+];
+
+const rangesForm: Array<RangeFieldInterface> = [
+  rangeInput
+];
+
+const onSaveScript = (formData: {inputs: Array<InputFieldRefsInterface>, ranges: Array<RangeFieldRefsInterface>}) => {
+  const range = formData.ranges[0];
+
+  emits('save-script', {
+    name: formData.inputs[0].value.value,
+    timeStamp: [+range.valueMin.value, +range.valueMax.value],
+  })
+}
+
+const getTimeFromTimestamp = (timestamp: number | null) => {
+  if (timestamp === null) {
+    return
+  }
+  return new Date(timestamp).toLocaleString('en-US',  {
+    minute: 'numeric',
+    second: 'numeric',
+  })
+}
+</script>
+
+<template>
+  <div class="save-script-form">
+    <app-form
+      :inputs="inputsForm"
+      :ranges="rangesForm"
+      :is-need-validate-form-on-init="true"
+      @submit="onSaveScript"
+    >
+      <template #placeholder-min-0>
+        <span>{{ getTimeFromTimestamp(timeStamp.min) }}</span>
+      </template>
+      <template #placeholder-max-0>
+        <span>{{ getTimeFromTimestamp(timeStamp.max) }}</span>
+      </template>
+      <template #current-value-min-0="{range}">
+        <span>{{ getTimeFromTimestamp(range?.valueMin.value) }}</span>
+      </template>
+      <template #current-value-max-0="{range}">
+        <span>{{ getTimeFromTimestamp(range?.valueMax.value) }}</span>
+      </template>
+    </app-form>
+  </div>
+</template>
+
+<style scoped>
+
+</style>

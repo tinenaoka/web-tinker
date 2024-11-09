@@ -16,8 +16,8 @@ const inputsForm: Array<InputFieldInterface> = [
   textInput,
 ];
 
-const onSaveScript = (inputs: Array<InputFieldRefsInterface>) => {
-  emits('save-script', inputs[0].value.value)
+const onSaveScript = (formData: {inputs: Array<InputFieldRefsInterface>}) => {
+  emits('save-script', formData.inputs[0].value.value)
 }
 </script>
 

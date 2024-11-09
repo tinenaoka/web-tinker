@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {RunButton} from '../../shared/ui/run-button'
-import {SaveScriptForm} from './ui/form-save-script'
+import {SaveScriptForm} from './ui/save-script-form'
 import {computed, onMounted, Reactive, reactive, ref, Ref} from 'vue';
 import {useFeatureRecordScript} from '../../features/record-script'
 import {useFeatureListScript} from '../../features/list-script';

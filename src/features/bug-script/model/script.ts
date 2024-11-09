@@ -15,7 +15,20 @@ const setBugReportScriptByDelay = async (selector: string, delay = 5 * 1000 * 60
     await useFeatureRecordLocalStorage.setLocalStorage(useFeatureRecordLocalStorage.keys.bugReportScript, bugReportScript);
 }
 
+const generateBugScriptName = (): string => {
+    return `BUG: ${new Date().toLocaleString('en-US',  {
+        weekday: 'short',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+    })}`
+}
+
 export const useFeatureBugReportScript = {
     getBugReportScript,
-    setBugReportScriptByDelay
+    setBugReportScriptByDelay,
+    generateBugScriptName
 }
