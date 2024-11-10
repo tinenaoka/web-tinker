@@ -37,7 +37,7 @@ const removeRecordedScript = (): void => {
 }
 
 const onSaveScript = async (scriptName: string): Promise<void> => {
-  await listScript.addScriptItem(scriptName);
+  await listScript.addRecordedScriptItem(scriptName);
   removeRecordedScript();
 }
 onMounted(async (): Promise<void> => {

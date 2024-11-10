@@ -1,4 +1,4 @@
-import {ScriptListItem, setScriptListItem} from '../../../../entities';
+import {ScriptBug, ScriptListItem, setScriptListItem} from '../../../../entities';
 import {useFeatureRecordLocalStorage} from '../../../../browser/storage';
 import {Script} from '../../../../entities';
 import {useFeatureRecordScript} from '../../record-script';
@@ -36,12 +36,21 @@ const deleteScript = async (script: ScriptListItem): Promise<void> => {
     await setSavedScript(newScripts);
 }
 
-const addScriptItem = async (name: string): Promise<void> => {
+const addScriptListItem = async (name: string, recordedScript: Array<Script> | Array<ScriptBug>, link: string): Promise<void> => {
     let savedScripts: Array<ScriptListItem> = await getSavedScripts();
-    let recordedScript: Array<Script> = await useFeatureRecordScript.getRecordedScript();
     let scripts = savedScripts ?? [];
-    scripts.unshift(setScriptListItem(recordedScript, name));
+    scripts.unshift(setScriptListItem(recordedScript, name, link));
     await setSavedScript(scripts);
+}
+
+const addRecordedScriptItem = async (name: string): Promise<void> => {
+    let recordedScript = await useFeatureRecordScript.getRecordedScript();
+    let recordedScriptLink = await useFeatureRecordScript.getRecordedScriptLink();
+    await addScriptListItem(name, recordedScript, recordedScriptLink);
+}
+
+const addBugReportScriptItem = async (name: string, bugRecordedScript: Array<ScriptBug>): Promise<void> => {
+    await addScriptListItem(name, bugRecordedScript, bugRecordedScript[0].link);
 }
 
 const setSavedScript = async (scripts: Array<ScriptListItem>) => {
@@ -67,6 +76,7 @@ export const useFeatureListScript = {
     getActiveScriptById,
     setSavedScript,
     deleteScript,
-    addScriptItem,
+    addRecordedScriptItem,
+    addBugReportScriptItem,
     changeStatusScript
 }

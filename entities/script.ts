@@ -6,7 +6,8 @@ export interface Script {
 }
 
 export interface ScriptBug extends Script {
-    timeStamp: number
+    timeStamp: number,
+    link: string
 }
 
 export const setScriptItem = (selector: string): Script => {
@@ -15,10 +16,11 @@ export const setScriptItem = (selector: string): Script => {
     return scriptItem;
 }
 
-export const setScriptBugItem = (selector: string): ScriptBug => {
+export const setScriptBugItem = (selector: string, link: string): ScriptBug => {
     let scriptItem = <ScriptBug>{
         ...setScriptItem(selector)
     };
     scriptItem.timeStamp = getTimeStamp();
+    scriptItem.link = link;
     return scriptItem;
 }

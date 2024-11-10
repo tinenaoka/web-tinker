@@ -2,6 +2,7 @@ const keys = {
     statusRunning: 'isRunningRecord',
     savedScripts: 'savedScripts',
     recordedScript: 'recordedScript',
+    recordedScriptLink: 'recordedScriptLink',
     runningScript: 'runningScript',
     statusRunningSaved: 'isRunningSaved',
     idRunningSaved: 'idRunningSaved',

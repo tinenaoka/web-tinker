@@ -1,8 +1,7 @@
 export const injectScript = (
-    onInject: () => unknown,
-    onReturn: () => unknown = () => {
-    },
-    args: [] = []
+    onInject: (args: Array<any>) => unknown,
+    onReturn: () => unknown = () => {},
+    args: Array<any> = []
 ): boolean => {
     if (!chrome) {
         return false;
@@ -22,7 +21,7 @@ export const injectScript = (
                         allFrames: true
                     },
                     func: onInject,
-                    args: args
+                    args: [args]
                 },
                 onReturn
             )

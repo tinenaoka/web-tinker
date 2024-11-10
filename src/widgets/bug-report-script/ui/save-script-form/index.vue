@@ -11,10 +11,13 @@ import {useFeatureBugReportScript} from '../../../../features/bug-script';
 
 const bugScript = useFeatureBugReportScript;
 const emits = defineEmits(['save-script']);
-const timeStamp = {
-  min: 1731176560254,
-  max: 1731176567995
-};
+const props = defineProps({
+  timeStamp: {
+    required: true,
+    type: Object
+  }
+});
+const timeStamp = props.timeStamp;
 
 let textInput = {
   ...Object.assign({}, InputField),
@@ -57,6 +60,7 @@ const getTimeFromTimestamp = (timestamp: number | null) => {
     return
   }
   return new Date(timestamp).toLocaleString('en-US',  {
+    hour: 'numeric',
     minute: 'numeric',
     second: 'numeric',
   })
@@ -71,17 +75,11 @@ const getTimeFromTimestamp = (timestamp: number | null) => {
       :is-need-validate-form-on-init="true"
       @submit="onSaveScript"
     >
-      <template #placeholder-min-0>
-        <span>{{ getTimeFromTimestamp(timeStamp.min) }}</span>
-      </template>
-      <template #placeholder-max-0>
-        <span>{{ getTimeFromTimestamp(timeStamp.max) }}</span>
-      </template>
       <template #current-value-min-0="{range}">
-        <span>{{ getTimeFromTimestamp(range?.valueMin.value) }}</span>
+        <span class="range-filed__current-value-min">{{ getTimeFromTimestamp(range?.valueMin.value) }}</span>
       </template>
       <template #current-value-max-0="{range}">
-        <span>{{ getTimeFromTimestamp(range?.valueMax.value) }}</span>
+        <span class="range-filed__current-value-max">{{ getTimeFromTimestamp(range?.valueMax.value) }}</span>
       </template>
     </app-form>
   </div>

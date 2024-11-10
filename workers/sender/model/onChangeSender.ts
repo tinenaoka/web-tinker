@@ -86,6 +86,7 @@ export const onChangeSender = (actionMame: string, timeAnimation = 500): void =>
     const observer = new MutationObserver(async (): Promise<void> => {
         let isHaveRunningScript = await runScript.getStatusRunningSaved();
         if (!isHaveRunningScript) {
+            isCanNextScriptAction = true;
             return
         }
         if (!isCanNextScriptAction) {
@@ -106,6 +107,7 @@ export const onChangeSender = (actionMame: string, timeAnimation = 500): void =>
             console.log('-------ANIMATION--------')
         }
         console.log('-----END SCRIPTING-------')
+        isCanNextScriptAction = true;
         sendMessageFromBrowser(actionMame, {})
     });
     observer.observe(document.body, CONFIG_CHANGE_DOM);

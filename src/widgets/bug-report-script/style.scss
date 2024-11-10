@@ -1,0 +1,62 @@
+$range-filed-placeholder-color: #2d2d2d;
+
+.bug-report-script {
+  &__container {
+    .save-script-form {
+      .form {
+        &__group:first-child {
+          margin-top: 0;
+        }
+
+        &__group {
+          margin-top: 20px;
+        }
+
+        &__button-submit {
+          margin-top: 40px;
+          text-align: center;
+        }
+
+        &__group {
+          .range-slider {
+            margin-top: 20px;
+          }
+
+          .range-filed {
+            &__placeholder-min,
+            &__placeholder-max {
+              font-size: 12px;
+              position: absolute;
+              top: 0;
+              color: $range-filed-placeholder-color;
+            }
+
+            &__placeholder-min {
+              left: 0;
+            }
+
+            &__placeholder-max {
+              right: 0;
+            }
+
+            &__current-value-min,
+            &__current-value-max {
+              font-size: 12px;
+              position: absolute;
+            }
+
+            &__current-value-min {
+              left: 0;
+              top: 10px;
+            }
+
+            &__current-value-max {
+              right: 0;
+              top: -20px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

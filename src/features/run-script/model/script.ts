@@ -5,10 +5,9 @@ import {ScriptListItem} from '../../../../entities';
 import {useFeatureListScript} from '../../list-script';
 
 const triggerPageMutation = async (): Promise<void> => {
-    injectScript((): void => {
-        let triggerElement = document.createElement('div');
-        triggerElement.setAttribute('class', '__trigger-element');
-        let content = `
+    let triggerElement = document.createElement('div');
+    triggerElement.setAttribute('class', '__trigger-element');
+    let content = `
         <div class="__trigger-element__content">
             <div class="__trigger-element__name">
                 <span>Is Running</span>
@@ -17,7 +16,7 @@ const triggerPageMutation = async (): Promise<void> => {
                 <i>🤣</i>
             </div>
         </div>`;
-        let styles = `
+    let styles = `
         <style>
             @keyframes icon-rotate {
               to {
@@ -47,15 +46,20 @@ const triggerPageMutation = async (): Promise<void> => {
                 margin-right: 10px;
             }
         </style>`;
-        triggerElement.innerHTML = `${styles}${content}`;
-        document.body.appendChild(triggerElement)
-    })
+    triggerElement.innerHTML = `${styles}${content}`;
+    document.body.appendChild(triggerElement)
 }
 
 const removeTriggerPageMutation = async (): Promise<void> => {
     injectScript((): void => {
         document.body.querySelector('.__trigger-element')?.remove()
     })
+}
+
+const setLocationScript = async (locationScript: string) => {
+    injectScript((args: Array<string>) => {
+        window.location.href = args[0];
+    }, () => {}, [locationScript])
 }
 
 const startRunningSavedScript = async (script: ScriptListItem): Promise<void> => {
@@ -86,6 +90,17 @@ const stopRunningSavedScript = async (script: ScriptListItem): Promise<void> => 
 
 const runScript = async (id: number): Promise<void> => {
     let script = await useFeatureListScript.getActiveScriptById(id);
+    if (!script) {
+        return
+    }
+    await setIdRunningSaved(script.id);
+    await setLocationScript(script.link);
+}
+
+const runScriptOnInitLocation = async (): Promise<void> => {
+    let script = await useFeatureListScript.getActiveScriptById(
+        await getIdRunningSaved()
+    );
     if (!script) {
         return
     }
@@ -132,6 +147,7 @@ export const useFeatureRunScript = {
     getStatusRunning,
     getStatusRunningSaved,
     runScript,
+    runScriptOnInitLocation,
     stopScript,
     stopActiveScript,
     setStatusRunning,
