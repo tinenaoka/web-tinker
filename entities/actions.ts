@@ -3,4 +3,5 @@ export enum ActionsEvent {
     Click = 'click',
     StopScripting = 'stopScripting',
     BugReport = 'bugReport',
+    InitLocation = 'initLocation',
 }

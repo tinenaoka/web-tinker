@@ -3,6 +3,7 @@ import {onClickSender} from './model/onClickSender';
 import {onBugReportSender} from './model/onBugReportSender';
 import {ActionsEvent} from '../../entities';
 import {useFeatureRunScript} from '../../src/features/run-script';
+import {sendMessageFromBrowser} from '../../browser/runtime/model/sendMessageFromBrowser';
 
 let senderAction = {};
 senderAction[ActionsEvent.ChangeDom] = onChangeSender;
@@ -15,5 +16,6 @@ for (let key in senderAction) {
 }
 console.log('--------- RunScriptOnInitLocation --------------')
 window.addEventListener('load', () => {
-    runner.runScriptOnInitLocation()
+    runner.runScriptOnInitLocation();
+    sendMessageFromBrowser(ActionsEvent.InitLocation, true)
 });

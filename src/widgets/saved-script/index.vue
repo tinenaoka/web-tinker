@@ -26,7 +26,6 @@ const onRemoveAllScripts = async (): Promise<void> => {
 
 const onRunScript = async (idx: number): Promise<void> => {
   await runner.runScript(scripts.value[idx].id)
-  await getStorageSavedScripts();
 }
 
 const onStopScript = async (idx: number): Promise<void> => {
@@ -45,10 +44,9 @@ const getStorageSavedScripts = async (): Promise<void> => {
 }
 
 addMessageListener(async (message: any): Promise<void> => {
-  if (message.action !== ActionsEvent.StopScripting) {
-    return;
+  if (message.action === ActionsEvent.StopScripting) {
+    await runner.stopActiveScript()
   }
-  await runner.stopActiveScript()
   await getStorageSavedScripts();
 })
 
