@@ -1,18 +1,27 @@
 import {getTimeStamp} from '../../../shared/model';
 import {useFeatureRecordLocalStorage} from '../../../../browser/storage';
 import {useFeatureListScript} from '../../list-script';
-import {ScriptBug, setScriptBugItem} from '../../../../entities';
+import {ScriptBug, setScriptBugItem, setScriptBugTypingItem} from '../../../../entities';
 
 const getBugReportScript = async (): Promise<Array<ScriptBug> | []> => {
     return await useFeatureRecordLocalStorage.getLocalStorage(useFeatureRecordLocalStorage.keys.bugReportScript) ?? [];
 }
 
-const setBugReportScriptByDelay = async (selector: string, link: string, delay = 5 * 1000 * 60): Promise<void> => {
-    let bugReportScript = await getBugReportScript();
-    bugReportScript.push(<never>setScriptBugItem(selector, link));
+const setBugReportScriptByDelay = async (
+    selector: string,
+    link: string,
+    value: null | string,
+    delay = 5 * 1000 * 60
+): Promise<void> => {
+    let bugReportScript = <ScriptBug[]>await getBugReportScript();
+    let bugReportScriptItem = <ScriptBug>setScriptBugItem(selector, link);
+    if (value !== null) {
+        bugReportScriptItem = <ScriptBug>setScriptBugTypingItem(selector, link, value);
+    }
+    bugReportScript.push(bugReportScriptItem);
 
     const timeStampNow = getTimeStamp();
-    bugReportScript = bugReportScript.filter(({timeStamp}) => timeStamp + delay > timeStampNow)
+    bugReportScript = bugReportScript.filter(({timeStamp}) => timeStamp + delay >= timeStampNow);
     await useFeatureRecordLocalStorage.setLocalStorage(useFeatureRecordLocalStorage.keys.bugReportScript, bugReportScript);
 }
 
@@ -27,7 +36,7 @@ const saveBugReportScript = async (name: string, timeStamp: Array<number>): Prom
     }
     bugReportScript = bugReportScript
         .filter(item => {
-            return item.timeStamp > timeStamp[0] && item.timeStamp < timeStamp[1]
+            return item.timeStamp >= timeStamp[0] && item.timeStamp <= timeStamp[1]
         })
         .sort((b, a) => {
             return a.timeStamp > b.timeStamp ? 1 : 0

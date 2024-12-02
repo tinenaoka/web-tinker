@@ -1,7 +1,7 @@
 import {sendMessageFromBrowser} from '../../../browser/runtime/model/sendMessageFromBrowser';
 import {getDomAbsolutePath} from '../../../browser/utils/model/getAbsolutePathFromEvent';
 import {getLocation} from '../../../browser/utils/model/getLocation';
-import {ActionClickData} from '../../../entities';
+import {ActionClickData, ActionsEvent} from '../../../entities';
 
 export const onClickSender = (actionName: string) => {
     const handlerClick = (event: Event) => {
@@ -10,6 +10,7 @@ export const onClickSender = (actionName: string) => {
             link: getLocation(),
         };
         sendMessageFromBrowser(actionName, actionData)
+        sendMessageFromBrowser(ActionsEvent.BugReport, actionData)
     }
     document.addEventListener('click', handlerClick, {
         capture: true

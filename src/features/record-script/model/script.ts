@@ -1,7 +1,7 @@
 import {useFeatureRecordLocalStorage} from '../../../../browser/storage';
 import {useFeatureRunScript} from '../../run-script';
 import {Script} from '../../../../entities';
-import {setScriptItem} from '../../../../entities';
+import {setScriptItem, setScriptTypingItem} from '../../../../entities';
 
 const clearRecordedScript = async (): Promise<void> => {
     await setRecordedScript([]);
@@ -27,8 +27,14 @@ const getRecordedScriptLink = async (): Promise<string> => {
 }
 
 const addScriptRecordedItem = async (selector: string): Promise<void> => {
-    let recordedScript = await getRecordedScript();
-    recordedScript.push(<never>setScriptItem(selector));
+    let recordedScript = <Script[]>await getRecordedScript();
+    recordedScript.push(setScriptItem(selector));
+    await setRecordedScript(recordedScript);
+}
+
+const addScriptRecordedTypingItem = async (selector: string, value: string): Promise<void> => {
+    let recordedScript = <Script[]>await getRecordedScript();
+    recordedScript.push(setScriptTypingItem(selector, value));
     await setRecordedScript(recordedScript);
 }
 
@@ -62,4 +68,5 @@ export const useFeatureRecordScript = {
     addScriptRecordedItem,
     addScriptRecordedLink,
     clearScriptRecordedLink,
+    addScriptRecordedTypingItem,
 }

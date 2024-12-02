@@ -1,17 +1,27 @@
 import {useFeatureBugReportScript} from '../../../src/features/bug-script';
 import {useFeatureRunScript} from '../../../src/features/run-script';
-import {ActionClickData} from "../../../entities";
+import {ActionClickData, ActionTypingData} from "../../../entities";
 
 const bugReportScript = useFeatureBugReportScript;
 const runScript = useFeatureRunScript;
 
-export const onBugReportEvent = async (actionClickData: ActionClickData): Promise<void> => {
+export const onBugReportEvent = async (actionData: ActionClickData | ActionTypingData): Promise<void> => {
     let isRunningStatus = await runScript.getStatusRunning();
     if (isRunningStatus) {
         return
     }
+    let isRunningSaved = await runScript.getStatusRunningSaved();
+    if (isRunningSaved) {
+        return
+    }
+    const {selector, link} = actionData;
+    let value: string | null = null;
+    if ('value' in actionData) {
+        value = actionData.value;
+    }
     await bugReportScript.setBugReportScriptByDelay(
-        actionClickData.selector,
-        actionClickData.link
+        selector,
+        link,
+        value
     );
 }

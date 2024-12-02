@@ -4,7 +4,7 @@ import {sendMessageFromBrowser} from '../../../browser/runtime/model/sendMessage
 
 const CONFIG_CHANGE_DOM = {childList: true, subtree: true, attributes: true};
 const CONFIG_CHANGE_BUTTON = {attributes: true};
-const EVENT_OPTIONS = {
+const EVENT_CLICK_OPTIONS = {
     view: window,
     bubbles: true,
     cancelable: true,
@@ -12,11 +12,62 @@ const EVENT_OPTIONS = {
 
 const runScript = useFeatureRunScript;
 
+const isNodeVisible = (node: HTMLElement): boolean => {
+    let currentElement = node;
+
+    while (currentElement) {
+        const style = window.getComputedStyle(currentElement);
+        if (style.display === 'none') {
+            return false;
+        }
+        currentElement = currentElement.parentElement;
+    }
+    return true;
+}
+
+const isNodeButton = (node: HTMLElement): boolean => {
+    return node.nodeName === 'BUTTON';
+}
+
+const isButtonDisabled = (node: HTMLButtonElement): boolean => {
+    return node.disabled;
+}
+
+const isNodeCanFill = (node: HTMLElement): boolean => {
+    return node.nodeName === 'INPUT' ||
+        node.nodeName === 'TEXTAREA';
+}
+
 const clickToElement = (node: HTMLElement): void => {
-    const eventClick = new MouseEvent('click', EVENT_OPTIONS);
-    const eventMouseDown = new MouseEvent('mousedown', EVENT_OPTIONS);
+    const eventClick = new MouseEvent('click', EVENT_CLICK_OPTIONS);
+    const eventMouseDown = new MouseEvent('mousedown', EVENT_CLICK_OPTIONS);
     node.dispatchEvent(eventMouseDown);
     node.dispatchEvent(eventClick);
+}
+
+const fillToElement = async (node: HTMLElement): Promise<void> => {
+    if (!isNodeCanFill(node)) {
+        return;
+    }
+    let runningScript = await getRunningScript();
+    if (runningScript[0].value === null) {
+        return;
+    }
+    let fillValue = runningScript[0].value.toString();
+    const fillNode = <HTMLInputElement | HTMLTextAreaElement>node;
+    const eventInput = new InputEvent('input', {
+        data: fillValue
+    });
+    fillNode.value = fillValue;
+    fillNode.dispatchEvent(eventInput);
+}
+
+const getRunningScript = async (): Promise<Array<Script> | []> => {
+    return await runScript.getRunningScript();
+}
+
+const getCurrentElementNode = (runningScript: Array<Script> | [], index = 0): HTMLElement | null => {
+    return document.querySelector(runningScript[index].selector)
 }
 
 const saveCurrentScriptRunning = async (): Promise<void> => {
@@ -27,16 +78,8 @@ const saveCurrentScriptRunning = async (): Promise<void> => {
     return await runScript.setRunningScript(runningScript);
 }
 
-const getRunningScript = async (): Promise<Array<Script> | []> => {
-    return await runScript.getRunningScript();
-}
-
-const whitForAnimation = async (timeAnimation: number): Promise<void> => {
+const waitForAnimation = async (timeAnimation: number): Promise<void> => {
     return await new Promise((resolve) => setTimeout(resolve, timeAnimation));
-}
-
-const getCurrentElementNode = (runningScript: Array<Script> | [], index = 0): HTMLElement | null => {
-    return document.querySelector(runningScript[index].selector)
 }
 
 const waitForCurrentElement = async (): Promise<HTMLElement> => {
@@ -61,28 +104,7 @@ const waitForCurrentElement = async (): Promise<HTMLElement> => {
     })
 }
 
-const isNodeVisible = (node: HTMLElement): boolean => {
-    let currentElement = node;
-
-    while (currentElement) {
-        const style = window.getComputedStyle(currentElement);
-        if (style.display === 'none') {
-            return false;
-        }
-        currentElement = currentElement.parentElement;
-    }
-    return true;
-}
-
-const isNodeButton = (node: HTMLElement): boolean => {
-    return node.nodeName === 'BUTTON';
-}
-
-const isButtonDisabled = (node: HTMLButtonElement): boolean => {
-    return node.disabled;
-}
-
-const whitForElementIsShowingOnPage = (nextElement: HTMLElement): Promise<boolean> | boolean => {
+const waitForElementIsShowingOnPage = (nextElement: HTMLElement): Promise<boolean> | boolean => {
     if (isNodeVisible(nextElement)) {
         return true;
     }
@@ -98,7 +120,7 @@ const whitForElementIsShowingOnPage = (nextElement: HTMLElement): Promise<boolea
     })
 }
 
-const whitForButtonIsNotDisabled = (nextElement: HTMLElement): Promise<boolean> | boolean => {
+const waitForButtonIsNotDisabled = (nextElement: HTMLElement): Promise<boolean> | boolean => {
     if (!isNodeButton(nextElement)) {
         return true;
     }
@@ -134,14 +156,16 @@ export const onChangeSender = (actionMame: string, timeAnimation = 500): void =>
             console.log(await getRunningScript())
             let currentElement = await waitForCurrentElement();
             console.log('-------END WAIT CURRENT--------')
-            await whitForElementIsShowingOnPage(currentElement);
+            await waitForElementIsShowingOnPage(currentElement);
             console.log('-------- SHOW ON PAGE ----------')
-            await whitForButtonIsNotDisabled(currentElement);
+            await waitForButtonIsNotDisabled(currentElement);
             console.log('-------- BUTTON IS NOT DISABLED ----------')
             clickToElement(currentElement);
             console.log('-------CLICK--------')
+            await fillToElement(currentElement);
+            console.log('-------FILL--------')
             await saveCurrentScriptRunning();
-            await whitForAnimation(timeAnimation);
+            await waitForAnimation(timeAnimation);
             console.log('-------ANIMATION--------')
         }
         console.log('-----END SCRIPTING-------')
