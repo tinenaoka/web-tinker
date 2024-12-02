@@ -4,11 +4,19 @@ import {sendMessageFromBrowser} from '../../../browser/runtime/model/sendMessage
 
 const CONFIG_CHANGE_DOM = {childList: true, subtree: true, attributes: true};
 const CONFIG_CHANGE_BUTTON = {attributes: true};
+const EVENT_OPTIONS = {
+    view: window,
+    bubbles: true,
+    cancelable: true,
+}
 
 const runScript = useFeatureRunScript;
 
 const clickToElement = (node: HTMLElement): void => {
-    node.click()
+    const eventClick = new MouseEvent('click', EVENT_OPTIONS);
+    const eventMouseDown = new MouseEvent('mousedown', EVENT_OPTIONS);
+    node.dispatchEvent(eventMouseDown);
+    node.dispatchEvent(eventClick);
 }
 
 const saveCurrentScriptRunning = async (): Promise<void> => {
@@ -130,7 +138,7 @@ export const onChangeSender = (actionMame: string, timeAnimation = 500): void =>
             console.log('-------- SHOW ON PAGE ----------')
             await whitForButtonIsNotDisabled(currentElement);
             console.log('-------- BUTTON IS NOT DISABLED ----------')
-            clickToElement(currentElement)
+            clickToElement(currentElement);
             console.log('-------CLICK--------')
             await saveCurrentScriptRunning();
             await whitForAnimation(timeAnimation);
