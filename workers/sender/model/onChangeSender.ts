@@ -3,6 +3,7 @@ import {useFeatureRunScript} from '../../../src/features/run-script';
 import {sendMessageFromBrowser} from '../../../browser/runtime/model/sendMessageFromBrowser';
 
 const CONFIG_CHANGE_DOM = {childList: true, subtree: true, attributes: true};
+const CONFIG_CHANGE_BUTTON = {attributes: true};
 
 const runScript = useFeatureRunScript;
 
@@ -65,6 +66,14 @@ const isNodeVisible = (node: HTMLElement): boolean => {
     return true;
 }
 
+const isNodeButton = (node: HTMLElement): boolean => {
+    return node.nodeName === 'BUTTON';
+}
+
+const isButtonDisabled = (node: HTMLButtonElement): boolean => {
+    return node.disabled;
+}
+
 const whitForElementIsShowingOnPage = (nextElement: HTMLElement): Promise<boolean> | boolean => {
     if (isNodeVisible(nextElement)) {
         return true;
@@ -78,6 +87,25 @@ const whitForElementIsShowingOnPage = (nextElement: HTMLElement): Promise<boolea
             }
         })
         observerElement.observe(document.body, CONFIG_CHANGE_DOM);
+    })
+}
+
+const whitForButtonIsNotDisabled = (nextElement: HTMLElement): Promise<boolean> | boolean => {
+    if (!isNodeButton(nextElement)) {
+        return true;
+    }
+    if (!isButtonDisabled(<HTMLButtonElement>nextElement)) {
+        return true;
+    }
+    return new Promise((resolve): void => {
+        const observerElement = new MutationObserver(async (): Promise<boolean> => {
+            if (!isButtonDisabled(<HTMLButtonElement>nextElement)) {
+                resolve(true);
+                observerElement.disconnect()
+                return true;
+            }
+        })
+        observerElement.observe(nextElement, CONFIG_CHANGE_BUTTON);
     })
 }
 
@@ -100,6 +128,8 @@ export const onChangeSender = (actionMame: string, timeAnimation = 500): void =>
             console.log('-------END WAIT CURRENT--------')
             await whitForElementIsShowingOnPage(currentElement);
             console.log('-------- SHOW ON PAGE ----------')
+            await whitForButtonIsNotDisabled(currentElement);
+            console.log('-------- BUTTON IS NOT DISABLED ----------')
             clickToElement(currentElement)
             console.log('-------CLICK--------')
             await saveCurrentScriptRunning();
