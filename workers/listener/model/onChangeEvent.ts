@@ -1,5 +1,5 @@
 import {ActionsEvent} from '../../../entities';
-import {sendMessageFromExtension} from '../../../browser/runtime/model/sendMessageFromExtension';
+import {sendMessageFromExtension} from '../../../browser/runtime';
 import {useFeatureRunScript} from '../../../src/features/run-script';
 
 const runScript = useFeatureRunScript;

@@ -2,7 +2,7 @@ import {onClickEvent} from './model/onClickEvent';
 import {onChangeEvent} from './model/onChangeEvent';
 import {onBugReportEvent} from './model/onBugReportEvent';
 import {ActionsEvent} from '../../entities';
-import {addMessageListener} from '../../browser/runtime/model/addMessageListener';
+import {addMessageListener} from '../../browser/runtime';
 import {onTypingEvent} from './model/onTypingEvent';
 
 let listenerAction = {};

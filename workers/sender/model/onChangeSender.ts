@@ -1,6 +1,6 @@
 import {Script} from '../../../entities';
 import {useFeatureRunScript} from '../../../src/features/run-script';
-import {sendMessageFromBrowser} from '../../../browser/runtime/model/sendMessageFromBrowser';
+import {sendMessageFromBrowser} from '../../../browser/runtime';
 
 const CONFIG_CHANGE_DOM = {childList: true, subtree: true, attributes: true};
 const CONFIG_CHANGE_BUTTON = {attributes: true};

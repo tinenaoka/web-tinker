@@ -5,7 +5,7 @@ import {ScriptListNotFound} from './ui/script-list-not-found';
 import {ScriptListNavigation} from './ui/script-list-navigation';
 import {useFeatureRunScript} from '../../features/run-script';
 import {useFeatureRecordLocalStorage} from '../../../browser/storage';
-import {addMessageListener} from '../../../browser/runtime/model/addMessageListener';
+import {addMessageListener} from '../../../browser/runtime';
 import {ActionsEvent} from '../../../entities';
 import {useFeatureListScript} from '../../features/list-script';
 

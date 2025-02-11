@@ -1,5 +1,5 @@
 import {useFeatureRecordLocalStorage} from '../../../../browser/storage';
-import {injectScript} from '../../../../browser/scripting/model/injectScript';
+import {injectScript} from '../../../../browser/scripting';
 import {Script} from '../../../../entities';
 import {ScriptListItem} from '../../../../entities';
 import {useFeatureListScript} from '../../list-script';

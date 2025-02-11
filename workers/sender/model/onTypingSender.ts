@@ -1,7 +1,7 @@
 import {ActionsEvent, ActionTypingData} from '../../../entities';
-import {getDomAbsolutePath} from '../../../browser/utils/model/getAbsolutePathFromEvent';
-import {getLocation} from '../../../browser/utils/model/getLocation';
-import {sendMessageFromBrowser} from '../../../browser/runtime/model/sendMessageFromBrowser';
+import {getDomAbsolutePath} from '../../../browser/utils';
+import {getLocation} from '../../../browser/utils';
+import {sendMessageFromBrowser} from '../../../browser/runtime';
 
 export const onTypingSender = (actionName: string) => {
     let actionData= <ActionTypingData>{};

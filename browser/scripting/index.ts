@@ -1,1 +1,1 @@
-export * from './model';
+export {injectScript} from './model/injectScript';

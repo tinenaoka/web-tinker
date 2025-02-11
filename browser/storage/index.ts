@@ -1,1 +1,1 @@
-export * from './model';
+export {useFeatureRecordLocalStorage} from './model/storage';

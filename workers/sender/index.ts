@@ -2,7 +2,7 @@ import {onChangeSender} from './model/onChangeSender';
 import {onClickSender} from './model/onClickSender';
 import {ActionsEvent} from '../../entities';
 import {useFeatureRunScript} from '../../src/features/run-script';
-import {sendMessageFromBrowser} from '../../browser/runtime/model/sendMessageFromBrowser';
+import {sendMessageFromBrowser} from '../../browser/runtime';
 import {onTypingSender} from './model/onTypingSender';
 
 let senderAction = {};
