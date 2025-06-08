@@ -2,19 +2,15 @@
 import {RangeFieldRefsInterface} from '../../model';
 import {reactive} from 'vue';
 
-const props = defineProps({
-  range: {
-    required: true,
-    type: Object
-  },
-  idx: {
-    required: true,
-    type: Number
-  },
-});
+interface RangeFieldProps {
+  range: RangeFieldRefsInterface,
+  idx: number
+}
+
+const props = defineProps<RangeFieldProps>();
 
 const emits = defineEmits(['change-values'])
-const range = <RangeFieldRefsInterface>Object.assign({}, props.range);
+const range = Object.assign({}, props.range);
 let stylesSliderTrack = reactive({
   left: '0px',
   width: '100%',

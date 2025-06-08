@@ -10,13 +10,16 @@ import {
 import {useFeatureBugReportScript} from '../../../../features/bug-script';
 
 const bugScript = useFeatureBugReportScript;
+interface TimeStamp {
+  min: number,
+  max: number
+}
+interface SaveScriptProps {
+  timeStamp: TimeStamp
+}
+
 const emits = defineEmits(['save-script']);
-const props = defineProps({
-  timeStamp: {
-    required: true,
-    type: Object
-  }
-});
+const props = defineProps<SaveScriptProps>();
 const timeStamp = props.timeStamp;
 
 let textInput = {

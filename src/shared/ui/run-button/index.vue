@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import {computed, toRefs} from 'vue';
 
-const props = defineProps({
-  text: String,
-  textStop: String,
-  isRunning: Boolean
-});
+interface RunButtonProps {
+  text: string,
+  textStop?: string,
+  isRunning?: boolean
+}
+
+const props = defineProps<RunButtonProps>();
 const {isRunning, text, textStop} = toRefs(props);
 
 const emits = defineEmits(['run'])

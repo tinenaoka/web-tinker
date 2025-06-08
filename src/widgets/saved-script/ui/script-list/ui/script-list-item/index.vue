@@ -2,11 +2,12 @@
 import {IconButton} from '../../../../../../shared/ui/icon-button/index';
 import {icons} from '../../../../../../shared/ui/icon-button/model';
 import {computed, toRefs} from 'vue';
+interface ScriptListProps {
+  name: string,
+  isRunning: boolean,
+}
 
-const props = defineProps({
-  name: String,
-  isRunning: Boolean,
-});
+const props = defineProps<ScriptListProps>();
 const {name, isRunning} = toRefs(props);
 
 const emits = defineEmits(['run-script', 'stop-script', 'delete-script']);

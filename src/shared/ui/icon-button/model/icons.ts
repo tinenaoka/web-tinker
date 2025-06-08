@@ -4,4 +4,4 @@ export const icons = {
     running: 'icon--running',
     await: 'icon--await',
     stop: 'icon--stop',
-}
+} as const

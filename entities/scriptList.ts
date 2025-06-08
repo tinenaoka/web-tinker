@@ -2,7 +2,7 @@ import {Script} from './script';
 import {getTimeStamp} from '../src/shared/model';
 
 export interface ScriptListItem {
-    scripts: Array<Script>,
+    scripts: Script[],
     name: string,
     link: string,
     id: number,

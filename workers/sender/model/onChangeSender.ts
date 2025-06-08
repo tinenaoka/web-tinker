@@ -2,8 +2,14 @@ import {Script} from '../../../entities';
 import {useFeatureRunScript} from '../../../src/features/run-script';
 import {sendMessageFromBrowser} from '../../../browser/runtime';
 
-const CONFIG_CHANGE_DOM = {childList: true, subtree: true, attributes: true};
-const CONFIG_CHANGE_BUTTON = {attributes: true};
+const CONFIG_CHANGE_DOM = {
+    childList: true,
+    subtree: true,
+    attributes: true
+};
+const CONFIG_CHANGE_BUTTON = {
+    attributes: true
+};
 const EVENT_CLICK_OPTIONS = {
     view: window,
     bubbles: true,
@@ -41,7 +47,9 @@ const isNodeCanFill = (node: HTMLElement): boolean => {
 const clickToElement = (node: HTMLElement): void => {
     const eventClick = new MouseEvent('click', EVENT_CLICK_OPTIONS);
     const eventMouseDown = new MouseEvent('mousedown', EVENT_CLICK_OPTIONS);
+    const eventFocus = new MouseEvent('focus', EVENT_CLICK_OPTIONS);
     node.dispatchEvent(eventMouseDown);
+    node.dispatchEvent(eventFocus);
     node.dispatchEvent(eventClick);
 }
 
@@ -82,22 +90,21 @@ const waitForAnimation = async (timeAnimation: number): Promise<void> => {
     return await new Promise((resolve) => setTimeout(resolve, timeAnimation));
 }
 
-const waitForCurrentElement = async (): Promise<HTMLElement> => {
-    return new Promise(async (resolve): Promise<boolean> => {
+const waitForCurrentElement = (): Promise<HTMLElement> => {
+    return new Promise(async (resolve): Promise<HTMLElement> => {
         let runningScript = await getRunningScript();
         let nextElement = getCurrentElementNode(runningScript);
         if (nextElement !== null) {
             resolve(nextElement);
-            return true;
+            return;
         }
 
         const observerNextElement = new MutationObserver(async (): Promise<boolean> => {
-            console.log('observerNextElement', getCurrentElementNode(runningScript), runningScript[0])
             nextElement = getCurrentElementNode(runningScript);
             if (nextElement !== null) {
                 resolve(nextElement);
                 observerNextElement.disconnect()
-                return true;
+                return;
             }
         })
         observerNextElement.observe(document.body, CONFIG_CHANGE_DOM);
@@ -161,7 +168,7 @@ export const onChangeSender = (actionMame: string, timeAnimation = 500): void =>
             await waitForButtonIsNotDisabled(currentElement);
             console.log('-------- BUTTON IS NOT DISABLED ----------')
             clickToElement(currentElement);
-            console.log('-------CLICK--------')
+            console.log('-------CLICK--------', (await getRunningScript()).length)
             await fillToElement(currentElement);
             console.log('-------FILL--------')
             await saveCurrentScriptRunning();

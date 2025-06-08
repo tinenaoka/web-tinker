@@ -1,19 +1,22 @@
 <script setup lang="ts">
-import {computed, onMounted, reactive, Reactive} from 'vue';
+import {computed, onMounted, reactive} from 'vue';
 import {ScriptList} from './ui/script-list';
 import {ScriptListNotFound} from './ui/script-list-not-found';
 import {ScriptListNavigation} from './ui/script-list-navigation';
 import {useFeatureRunScript} from '../../features/run-script';
 import {useFeatureRecordLocalStorage} from '../../../browser/storage';
 import {addMessageListener} from '../../../browser/runtime';
-import {ActionsEvent} from '../../../entities';
+import {ActionsEvent, ScriptListItem} from '../../../entities';
 import {useFeatureListScript} from '../../features/list-script';
 
 let storage = useFeatureRecordLocalStorage;
 let runner = useFeatureRunScript;
 let listScript = useFeatureListScript;
+interface ReactiveScriptValue {
+  value: ScriptListItem[] | []
+}
 
-let scripts = <Reactive<any>>reactive({
+let scripts = <ReactiveScriptValue>reactive({
   value: []
 });
 

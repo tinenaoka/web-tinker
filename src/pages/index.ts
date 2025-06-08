@@ -22,6 +22,6 @@ export const routes = [
         component: () => import('./not-found-page'),
         name: Routes.NotFound,
     },
-];
+] as const;
 
 export {Routing};

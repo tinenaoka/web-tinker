@@ -1,17 +1,21 @@
 <script setup lang="ts">
 import {RunButton} from '../../shared/ui/run-button'
 import {SaveScriptForm} from './ui/save-script-form'
-import {computed, onMounted, Reactive, reactive, ref, Ref} from 'vue';
+import {computed, onMounted, reactive, ref, Ref} from 'vue';
 import {useFeatureRecordScript} from '../../features/record-script'
 import {useFeatureListScript} from '../../features/list-script';
 import {useFeatureRunScript} from '../../features/run-script';
+import {Script} from '../../../entities';
 
 let script = useFeatureRecordScript;
 let listScript = useFeatureListScript;
 let runScript = useFeatureRunScript;
+interface ReactiveScript {
+  value: Script[] | []
+}
 
-let isRunning = <Ref>ref(false);
-let recordedScript = <Reactive<any>>reactive({
+let isRunning = <Ref<boolean>>ref(false);
+let recordedScript = <ReactiveScript>reactive({
   value: []
 });
 

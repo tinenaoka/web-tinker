@@ -10,9 +10,13 @@ export const REFS_RANGE_OVERRIDE_FIELDS = [
     'valueMax',
 ] as const;
 
-type UntypedInputFields = { [T in typeof REFS_INPUT_OVERRIDE_FIELDS[number]]: unknown };
+type UntypedInputFields = {
+    [T in typeof REFS_INPUT_OVERRIDE_FIELDS[number]]: unknown
+};
 
-type UntypedRangeFields = { [T in typeof REFS_RANGE_OVERRIDE_FIELDS[number]]: unknown };
+type UntypedRangeFields = {
+    [T in typeof REFS_RANGE_OVERRIDE_FIELDS[number]]: unknown
+};
 
 export interface InputTypesFields extends UntypedInputFields {
     value: string | null,

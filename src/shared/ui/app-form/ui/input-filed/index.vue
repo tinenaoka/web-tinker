@@ -1,19 +1,15 @@
 <script setup lang="ts">
 import {InputFieldRefsInterface} from '../../model';
 
-const props = defineProps({
-  input: {
-    required: true,
-    type: Object
-  },
-  idx: {
-    required: true,
-    type: Number
-  },
-});
+interface InputFieldProps {
+  input: InputFieldRefsInterface,
+  idx: number
+}
+
+const props = defineProps<InputFieldProps>();
 const emits = defineEmits(['input'])
 
-const input = <InputFieldRefsInterface>Object.assign({}, props.input);
+const input = Object.assign({}, props.input);
 
 const onInput = () => {
   emits('input', {

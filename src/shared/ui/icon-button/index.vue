@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import {toRefs} from 'vue';
+import {icons} from './model';
+interface IconButtonProps {
+  icon: typeof icons[keyof typeof icons];
+}
 
-const props = defineProps({
-  icon: String,
-});
+const props = defineProps<IconButtonProps>();
 const {icon} = toRefs(props);
 </script>
 

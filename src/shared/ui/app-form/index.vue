@@ -12,15 +12,15 @@ import {MainButton} from '../main-button';
 import {InputFiled} from './ui/input-filed/index';
 import {RangeFiled} from './ui/range-filed/index';
 
+interface AppFormProps {
+  isInlineForm?: boolean | false,
+  inputs?: InputFieldInterface[],
+  ranges?: RangeFieldInterface[],
+  isNeedValidateFormOnInit?: boolean | false
+}
+
 const emits = defineEmits(['submit'])
-const props = defineProps({
-  inputs: Array<InputFieldInterface>,
-  ranges: Array<RangeFieldInterface>,
-  isInlineForm: Boolean,
-  isNeedValidateFormOnInit: {
-    default: false
-  },
-});
+const props = defineProps<AppFormProps>();
 
 const {isInlineForm, inputs, ranges} = toRefs(props);
 

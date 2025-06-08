@@ -3,7 +3,7 @@ import {useFeatureRecordLocalStorage} from '../../../../browser/storage';
 import {useFeatureListScript} from '../../list-script';
 import {ScriptBug, setScriptBugItem, setScriptBugTypingItem} from '../../../../entities';
 
-const getBugReportScript = async (): Promise<Array<ScriptBug> | []> => {
+const getBugReportScript = async (): Promise<ScriptBug[] | []> => {
     return await useFeatureRecordLocalStorage.getLocalStorage(useFeatureRecordLocalStorage.keys.bugReportScript) ?? [];
 }
 
@@ -35,7 +35,7 @@ const saveBugReportScript = async (name: string, timeStamp: Array<number>): Prom
         return
     }
     bugReportScript = bugReportScript
-        .filter(item => {
+        .filter((item): item is ScriptBug => {
             return item.timeStamp >= timeStamp[0] && item.timeStamp <= timeStamp[1]
         })
         .sort((b, a) => {

@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import {reactive, Reactive, toRefs} from 'vue';
 import {ScriptListItem} from './ui/script-list-item/index';
+import {ScriptListItem as ScriptListItemChrome} from '../../../../../entities';
+import {toRefs} from 'vue';
 
-const props = defineProps({
-  scripts: <Reactive<any>>reactive([]),
-});
+interface ScriptListProps {
+  scripts: ScriptListItemChrome[] | []
+}
+
+const props = defineProps<ScriptListProps>();
 const {scripts} = toRefs(props);
 
 const emits = defineEmits(['run-script', 'stop-script', 'delete-script']);

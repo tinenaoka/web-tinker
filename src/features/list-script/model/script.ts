@@ -12,7 +12,7 @@ const getActiveScriptById = async (id: number): Promise<ScriptListItem | undefin
     if (scripts.length === 0) {
         return undefined
     }
-    return scripts.find(item => item && item.id === id);
+    return scripts.find((item): item is ScriptListItem => item.id === id);
 }
 
 const getActiveScriptIndexById = async (id: number): Promise<number> => {

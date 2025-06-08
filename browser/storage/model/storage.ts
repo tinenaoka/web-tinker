@@ -17,15 +17,15 @@ const getLocalStorage = async (key: string): Promise<any | null> => {
     return storage[key] ?? null;
 }
 
-const removeLocalStorage = (key: string): Promise<void> => {
+const removeLocalStorage = (key: string): Promise<void> | undefined => {
     return chrome.storage?.local.remove(key);
 }
 
-const clearLocalStorage = (): Promise<void> => {
+const clearLocalStorage = (): Promise<void> | undefined => {
     return chrome.storage?.local.clear();
 }
 
-const setLocalStorage = (key: string, value: any): Promise<void> => {
+const setLocalStorage = (key: string, value: any): Promise<void> | undefined => {
     let storeItem: Record<string, any> = {};
     storeItem[key] = value;
     return chrome.storage?.local.set(storeItem);
