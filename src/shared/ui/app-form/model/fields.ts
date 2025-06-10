@@ -29,11 +29,11 @@ export interface RangeTypesFields extends UntypedRangeFields {
 }
 
 export type InputFieldType<TypeExtend = null> = {
-    [Type in keyof InputTypesFields]: TypeExtend extends Ref ? Ref<InputTypesFields[Type]> : InputTypesFields[Type];
+    [Key in keyof InputTypesFields]: TypeExtend extends Ref ? Ref<InputTypesFields[Key]> : InputTypesFields[Key];
 }
 
 export type RangeFieldType<TypeExtend = null> = {
-    [Type in keyof RangeTypesFields]: TypeExtend extends Ref ? Ref<RangeTypesFields[Type]> : RangeTypesFields[Type];
+    [Key in keyof RangeTypesFields]: TypeExtend extends Ref ? Ref<RangeTypesFields[Key]> : RangeTypesFields[Key];
 }
 
 export interface InputFieldBaseInterface {
