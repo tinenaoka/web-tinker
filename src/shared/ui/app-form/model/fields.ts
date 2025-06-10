@@ -11,11 +11,11 @@ export const REFS_RANGE_OVERRIDE_FIELDS = [
 ] as const;
 
 type UntypedInputFields = {
-    [Value in typeof REFS_INPUT_OVERRIDE_FIELDS[number]]: unknown
+    [Key in typeof REFS_INPUT_OVERRIDE_FIELDS[number]]: unknown
 };
 
 type UntypedRangeFields = {
-    [Value in typeof REFS_RANGE_OVERRIDE_FIELDS[number]]: unknown
+    [Key in typeof REFS_RANGE_OVERRIDE_FIELDS[number]]: unknown
 };
 
 export interface InputTypesFields extends UntypedInputFields {
