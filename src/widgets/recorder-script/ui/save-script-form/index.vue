@@ -10,13 +10,13 @@ let textInput = {
   isRequired: true,
   name: 'name',
   placeholder: 'name'
-} as unknown as InputFieldInterface;
+};
 
-const inputsForm: Array<InputFieldInterface> = [
+const inputsForm: InputFieldInterface[] = [
   textInput,
 ];
 
-const onSaveScript = (formData: {inputs: Array<InputFieldRefsInterface>}) => {
+const onSaveScript = (formData: {inputs: InputFieldRefsInterface[]}) => {
   emits('save-script', formData.inputs[0].value.value)
 }
 </script>

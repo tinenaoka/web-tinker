@@ -70,11 +70,11 @@ const fillToElement = async (node: HTMLElement): Promise<void> => {
     fillNode.dispatchEvent(eventInput);
 }
 
-const getRunningScript = async (): Promise<Array<Script> | []> => {
+const getRunningScript = async (): Promise<Script[]> => {
     return await runScript.getRunningScript();
 }
 
-const getCurrentElementNode = (runningScript: Array<Script> | [], index = 0): HTMLElement | null => {
+const getCurrentElementNode = (runningScript: Script[], index = 0): HTMLElement | null => {
     return document.querySelector(runningScript[index].selector)
 }
 

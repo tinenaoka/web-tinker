@@ -28,15 +28,16 @@ const classForm = computed(() => isInlineForm.value ? 'form--inline' : '')
 
 let inputsForm = Object.assign([], inputs?.value)
   .map((item: InputFieldInterface): InputFieldRefsInterface => {
-    const itemRef = structuredClone(item) as unknown as InputFieldRefsInterface;
+    let itemRef = structuredClone(item) as unknown as InputFieldRefsInterface;
     for (let key of REFS_INPUT_OVERRIDE_FIELDS) {
       itemRef[key] = ref(item[key] ?? '');
     }
     return itemRef;
   })
+
 let rangesForm = Object.assign([], ranges?.value)
   .map((item: RangeFieldInterface): RangeFieldRefsInterface => {
-    const itemRef = structuredClone(item) as unknown as RangeFieldRefsInterface;
+    let itemRef = structuredClone(item) as unknown as RangeFieldRefsInterface;
     for (let key of REFS_RANGE_OVERRIDE_FIELDS) {
       itemRef[key] = ref(item[key] ?? 0);
     }
@@ -82,7 +83,7 @@ const onSubmit = () => {
   })
 }
 
-const validateInputs = (inputs: Array<InputFieldRefsInterface>) => {
+const validateInputs = (inputs: InputFieldRefsInterface[]) => {
   isCanSubmit.value = true;
   let inputError = inputs.find(item => {
     return item.error.value !== ''
@@ -94,7 +95,7 @@ const validateInputs = (inputs: Array<InputFieldRefsInterface>) => {
 
 watch(
   () => inputsForm || [],
-  (inputs: Array<InputFieldRefsInterface>) => {
+  (inputs: InputFieldRefsInterface[]) => {
     validateInputs(inputs)
   },
   {deep: true}

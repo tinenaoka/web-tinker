@@ -3,8 +3,8 @@ import {useFeatureRecordLocalStorage} from '../../../../browser/storage';
 import {Script} from '../../../../entities';
 import {useFeatureRecordScript} from '../../record-script';
 
-const getSavedScripts = async (): Promise<ScriptListItem[] | []> => {
-    return await useFeatureRecordLocalStorage.getLocalStorage(useFeatureRecordLocalStorage.keys.savedScripts) ?? []
+const getSavedScripts = async (): Promise<ScriptListItem[]> => {
+    return <ScriptListItem[]>await useFeatureRecordLocalStorage.getLocalStorage(useFeatureRecordLocalStorage.keys.savedScripts) ?? [];
 }
 
 const getActiveScriptById = async (id: number): Promise<ScriptListItem | undefined> => {
@@ -36,11 +36,10 @@ const deleteScript = async (script: ScriptListItem): Promise<void> => {
     await setSavedScript(newScripts);
 }
 
-const addScriptListItem = async (name: string, recordedScript: Array<Script> | Array<ScriptBug>, link: string): Promise<void> => {
-    let savedScripts: Array<ScriptListItem> = await getSavedScripts();
-    let scripts = savedScripts ?? [];
-    scripts.unshift(setScriptListItem(recordedScript, name, link));
-    await setSavedScript(scripts);
+const addScriptListItem = async (name: string, recordedScript: Script[] | ScriptBug[], link: string): Promise<void> => {
+    let savedScripts = await getSavedScripts();
+    savedScripts.unshift(setScriptListItem(recordedScript, name, link));
+    await setSavedScript(savedScripts);
 }
 
 const addRecordedScriptItem = async (name: string): Promise<void> => {
@@ -49,11 +48,11 @@ const addRecordedScriptItem = async (name: string): Promise<void> => {
     await addScriptListItem(name, recordedScript, recordedScriptLink);
 }
 
-const addBugReportScriptItem = async (name: string, bugRecordedScript: Array<ScriptBug>): Promise<void> => {
+const addBugReportScriptItem = async (name: string, bugRecordedScript: ScriptBug[]): Promise<void> => {
     await addScriptListItem(name, bugRecordedScript, bugRecordedScript[0].link);
 }
 
-const setSavedScript = async (scripts: Array<ScriptListItem>) => {
+const setSavedScript = async (scripts: ScriptListItem[]) => {
     await useFeatureRecordLocalStorage.setLocalStorage(useFeatureRecordLocalStorage.keys.savedScripts, scripts);
 }
 

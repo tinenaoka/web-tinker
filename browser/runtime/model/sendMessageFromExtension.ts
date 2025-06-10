@@ -1,4 +1,4 @@
-export const sendMessageFromExtension = (action: string, data: any): void => {
+export const sendMessageFromExtension = <Type>(action: string, data: Type): void => {
     chrome.runtime?.sendMessage({
         action,
         data

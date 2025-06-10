@@ -6,7 +6,7 @@ interface LinkInterface {
   label: string
 }
 
-const links: Array<LinkInterface> = [
+const links: LinkInterface[] = [
   {
     path: {
       name: 'Index'

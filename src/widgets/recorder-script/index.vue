@@ -45,7 +45,7 @@ const onSaveScript = async (scriptName: string): Promise<void> => {
   removeRecordedScript();
 }
 onMounted(async (): Promise<void> => {
-  let isRunningStore: boolean | null = await runScript.getStatusRunning();
+  let isRunningStore = await runScript.getStatusRunning();
   if (isRunningStore === null) {
     return
   }

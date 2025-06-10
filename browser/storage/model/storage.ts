@@ -9,7 +9,7 @@ const keys = {
     bugReportScript: 'bugReportScript',
 }
 
-const getLocalStorage = async (key: string): Promise<any | null> => {
+const getLocalStorage = async (key: string): Promise<unknown | null> => {
     let storage = await chrome.storage?.local.get(key);
     if (!storage) {
         return null
@@ -25,8 +25,8 @@ const clearLocalStorage = (): Promise<void> | undefined => {
     return chrome.storage?.local.clear();
 }
 
-const setLocalStorage = (key: string, value: any): Promise<void> | undefined => {
-    let storeItem: Record<string, any> = {};
+const setLocalStorage = <Type>(key: string, value: Type): Promise<void> | undefined => {
+    let storeItem: Record<string, Type> = {};
     storeItem[key] = value;
     return chrome.storage?.local.set(storeItem);
 }

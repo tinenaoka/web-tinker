@@ -3,8 +3,8 @@ import {useFeatureRecordLocalStorage} from '../../../../browser/storage';
 import {useFeatureListScript} from '../../list-script';
 import {ScriptBug, setScriptBugItem, setScriptBugTypingItem} from '../../../../entities';
 
-const getBugReportScript = async (): Promise<ScriptBug[] | []> => {
-    return await useFeatureRecordLocalStorage.getLocalStorage(useFeatureRecordLocalStorage.keys.bugReportScript) ?? [];
+const getBugReportScript = async (): Promise<ScriptBug[]> => {
+    return <ScriptBug[]>await useFeatureRecordLocalStorage.getLocalStorage(useFeatureRecordLocalStorage.keys.bugReportScript) ?? [];
 }
 
 const setBugReportScriptByDelay = async (
@@ -29,7 +29,7 @@ const clearBugReportScript = async (): Promise<void> => {
     await useFeatureRecordLocalStorage.setLocalStorage(useFeatureRecordLocalStorage.keys.bugReportScript, []);
 }
 
-const saveBugReportScript = async (name: string, timeStamp: Array<number>): Promise<void> => {
+const saveBugReportScript = async (name: string, timeStamp: number[]): Promise<void> => {
     let bugReportScript = await getBugReportScript();
     if (bugReportScript.length === 0) {
         return

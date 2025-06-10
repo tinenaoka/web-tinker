@@ -15,7 +15,7 @@ for (let key in senderAction) {
     senderAction[key](key);
 }
 console.log('--------- RunScriptOnInitLocation --------------')
-window.addEventListener('load', () => {
+window.addEventListener('load', async () => {
     sendMessageFromBrowser(ActionsEvent.InitLocation, true)
-    runner.runScriptOnInitLocation();
+    await runner.runScriptOnInitLocation();
 });

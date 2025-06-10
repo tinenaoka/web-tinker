@@ -6,7 +6,7 @@ import {ScriptListNavigation} from './ui/script-list-navigation';
 import {useFeatureRunScript} from '../../features/run-script';
 import {useFeatureRecordLocalStorage} from '../../../browser/storage';
 import {addMessageListener} from '../../../browser/runtime';
-import {ActionsEvent, ScriptListItem} from '../../../entities';
+import {ActionsEvent, Message, ScriptListItem} from '../../../entities';
 import {useFeatureListScript} from '../../features/list-script';
 
 let storage = useFeatureRecordLocalStorage;
@@ -46,7 +46,7 @@ const getStorageSavedScripts = async (): Promise<void> => {
   scripts.value = await listScript.getSavedScripts();
 }
 
-addMessageListener(async (message: any): Promise<void> => {
+addMessageListener(async (message: Message): Promise<void> => {
   if (message.action === ActionsEvent.StopScripting) {
     await runner.stopActiveScript()
   }

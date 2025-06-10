@@ -11,11 +11,11 @@ export const REFS_RANGE_OVERRIDE_FIELDS = [
 ] as const;
 
 type UntypedInputFields = {
-    [T in typeof REFS_INPUT_OVERRIDE_FIELDS[number]]: unknown
+    [Type in typeof REFS_INPUT_OVERRIDE_FIELDS[number]]: unknown
 };
 
 type UntypedRangeFields = {
-    [T in typeof REFS_RANGE_OVERRIDE_FIELDS[number]]: unknown
+    [Type in typeof REFS_RANGE_OVERRIDE_FIELDS[number]]: unknown
 };
 
 export interface InputTypesFields extends UntypedInputFields {
@@ -28,14 +28,12 @@ export interface RangeTypesFields extends UntypedRangeFields {
     valueMax: number,
 }
 
-export type InputFieldType<B = null> = {
-    [T in keyof InputTypesFields]:
-    B extends Ref ? Ref<InputTypesFields[T]> : InputTypesFields[T];
+export type InputFieldType<TypeExtend = null> = {
+    [Type in keyof InputTypesFields]: TypeExtend extends Ref ? Ref<InputTypesFields[Type]> : InputTypesFields[Type];
 }
 
-export type RangeFieldType<B = null> = {
-    [T in keyof RangeTypesFields]:
-    B extends Ref ? Ref<RangeTypesFields[T]> : RangeTypesFields[T];
+export type RangeFieldType<TypeExtend = null> = {
+    [Type in keyof RangeTypesFields]: TypeExtend extends Ref ? Ref<RangeTypesFields[Type]> : RangeTypesFields[Type];
 }
 
 export interface InputFieldBaseInterface {
@@ -54,17 +52,13 @@ export interface RangeFieldBaseInterface {
     isRequired: boolean,
 }
 
-export interface InputFieldRefsInterface extends InputFieldBaseInterface, InputFieldType<Ref> {
-}
+export interface InputFieldRefsInterface extends InputFieldBaseInterface, InputFieldType<Ref> {}
 
-export interface InputFieldInterface extends InputFieldBaseInterface, InputFieldType {
-}
+export interface InputFieldInterface extends InputFieldBaseInterface, InputFieldType {}
 
-export interface RangeFieldInterface extends RangeFieldBaseInterface, RangeFieldType {
-}
+export interface RangeFieldInterface extends RangeFieldBaseInterface, RangeFieldType {}
 
-export interface RangeFieldRefsInterface extends RangeFieldBaseInterface, RangeFieldType<Ref> {
-}
+export interface RangeFieldRefsInterface extends RangeFieldBaseInterface, RangeFieldType<Ref> {}
 
 export const InputField = {
     value: null,

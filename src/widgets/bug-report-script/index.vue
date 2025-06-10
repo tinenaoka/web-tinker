@@ -38,7 +38,7 @@ const onRecordBug = async () => {
   timeStamp.max = bugReportScriptCurrent.value[bugReportScriptCurrent.value.length - 1].timeStamp;
 }
 
-const onSaveBug = async (scriptData: {name: string, timeStamp: Array<number>}) => {
+const onSaveBug = async (scriptData: {name: string, timeStamp: number[]}) => {
   await bugReportScript.saveBugReportScript(scriptData.name, scriptData.timeStamp);
   await bugReportScript.clearBugReportScript();
   isShowRunButton.value = true;

@@ -13,17 +13,17 @@ const recordScript = async (): Promise<void> => {
     await useFeatureRunScript.setStatusRunning(true)
 }
 
-const saveScript = async (): Promise<Array<Script> | []> => {
+const saveScript = async (): Promise<Script[]> => {
     await useFeatureRunScript.setStatusRunning(false)
     return await getRecordedScript();
 }
 
-const getRecordedScript = async (): Promise<Array<Script> | []> => {
-  return await useFeatureRecordLocalStorage.getLocalStorage(useFeatureRecordLocalStorage.keys.recordedScript) ?? []
+const getRecordedScript = async (): Promise<Script[]> => {
+    return <Script[]>await useFeatureRecordLocalStorage.getLocalStorage(useFeatureRecordLocalStorage.keys.recordedScript) ?? [];
 }
 
 const getRecordedScriptLink = async (): Promise<string> => {
-    return await useFeatureRecordLocalStorage.getLocalStorage(useFeatureRecordLocalStorage.keys.recordedScriptLink)
+    return <string>await useFeatureRecordLocalStorage.getLocalStorage(useFeatureRecordLocalStorage.keys.recordedScriptLink)
 }
 
 const addScriptRecordedItem = async (selector: string): Promise<void> => {
@@ -55,7 +55,7 @@ const clearScriptRecordedLink = async (): Promise<void> => {
 }
 
 
-const setRecordedScript = async (recordedScript: Array<Script> | []) => {
+const setRecordedScript = async (recordedScript: Script[]) => {
   await useFeatureRecordLocalStorage.setLocalStorage(useFeatureRecordLocalStorage.keys.recordedScript, recordedScript);
 }
 

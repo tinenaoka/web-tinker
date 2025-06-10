@@ -29,7 +29,7 @@ let textInput = {
   name: 'name',
   placeholder: 'name',
   value: bugScript.generateBugScriptName(),
-} as unknown as InputFieldInterface;
+};
 
 let rangeInput = {
   ...Object.assign({}, RangeField),
@@ -39,17 +39,17 @@ let rangeInput = {
   valueMin: timeStamp.min,
   valueMax: timeStamp.max,
   step: 0
-} as unknown as RangeFieldInterface;
+};
 
-const inputsForm: Array<InputFieldInterface> = [
+const inputsForm: InputFieldInterface[] = [
   textInput,
 ];
 
-const rangesForm: Array<RangeFieldInterface> = [
+const rangesForm: RangeFieldInterface[] = [
   rangeInput
 ];
 
-const onSaveScript = (formData: {inputs: Array<InputFieldRefsInterface>, ranges: Array<RangeFieldRefsInterface>}) => {
+const onSaveScript = (formData: {inputs: InputFieldRefsInterface[], ranges: RangeFieldRefsInterface[]}) => {
   const range = formData.ranges[0];
 
   emits('save-script', {

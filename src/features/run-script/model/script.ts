@@ -57,7 +57,10 @@ const removeTriggerPageMutation = async (): Promise<void> => {
 }
 
 const setLocationScript = async (locationScript: string) => {
-    injectScript((args: Array<string>) => {
+    injectScript((args: unknown[]) => {
+        if (typeof args[0] !== 'string') {
+            return
+        }
         window.location.href = args[0];
     }, () => {}, [locationScript])
 }
@@ -77,7 +80,7 @@ const setIdRunningSaved = async (id: number): Promise<void> => {
     await useFeatureRecordLocalStorage.setLocalStorage(useFeatureRecordLocalStorage.keys.idRunningSaved, id)
 }
 
-const setRunningScript = async (scripts: Array<Script> | []): Promise<void> => {
+const setRunningScript = async (scripts: Script[]): Promise<void> => {
     await useFeatureRecordLocalStorage.setLocalStorage(useFeatureRecordLocalStorage.keys.runningScript, scripts) // run
 }
 
@@ -101,7 +104,7 @@ const runScriptOnInitLocation = async (): Promise<void> => {
     let script = await useFeatureListScript.getActiveScriptById(
         await getIdRunningSaved()
     );
-    if (!script) {
+    if (typeof script === 'undefined') {
         return
     }
     await startRunningSavedScript(script);
@@ -118,19 +121,19 @@ const stopScript = async (id: number): Promise<void> => {
 }
 
 const getIdRunningSaved = async (): Promise<number> => {
-    return await useFeatureRecordLocalStorage.getLocalStorage(useFeatureRecordLocalStorage.keys.idRunningSaved)
+    return <number>await useFeatureRecordLocalStorage.getLocalStorage(useFeatureRecordLocalStorage.keys.idRunningSaved)
 }
 
 const stopActiveScript = async (): Promise<void> => {
     await stopScript(await getIdRunningSaved());
 }
 
-const getRunningScript = async (): Promise<Array<Script> | []> => {
-    return await useFeatureRecordLocalStorage.getLocalStorage(useFeatureRecordLocalStorage.keys.runningScript) ?? [];
+const getRunningScript = async (): Promise<Script[]> => {
+    return <Script[]>await useFeatureRecordLocalStorage.getLocalStorage(useFeatureRecordLocalStorage.keys.runningScript);
 }
 
 const getStatusRunning = async (): Promise<boolean | null> => {
-    return await useFeatureRecordLocalStorage.getLocalStorage(useFeatureRecordLocalStorage.keys.statusRunning);
+    return <boolean>await useFeatureRecordLocalStorage.getLocalStorage(useFeatureRecordLocalStorage.keys.statusRunning) ?? null;
 }
 
 const setStatusRunning = async (statusRunning: boolean) => {
@@ -138,7 +141,7 @@ const setStatusRunning = async (statusRunning: boolean) => {
 }
 
 const getStatusRunningSaved = async (): Promise<number> => {
-    return await useFeatureRecordLocalStorage.getLocalStorage(useFeatureRecordLocalStorage.keys.statusRunningSaved)
+    return <number>await useFeatureRecordLocalStorage.getLocalStorage(useFeatureRecordLocalStorage.keys.statusRunningSaved)
 }
 
 
